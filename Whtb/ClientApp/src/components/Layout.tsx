@@ -1,16 +1,18 @@
 import * as React from 'react';
 import { Container } from 'reactstrap';
 import NavMenu from './NavMenu';
+import Navbar from "./Navbar/Navbar";
 
 export default class Layout extends React.PureComponent<{}, { children?: React.ReactNode }> {
     public render() {
         return (
-            <React.Fragment>
-                <NavMenu />
+            <div>
+                <Navbar />
                 <Container>
                     {this.props.children}
                 </Container>
-            </React.Fragment>
+            </div>
+                
         );
     }
 }

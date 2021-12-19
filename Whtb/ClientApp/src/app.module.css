@@ -1,0 +1,16 @@
+﻿.mainStyle {
+    background-color: goldenrod;
+    width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.navStyle {
+    width: 349px;
+    height: 648px;
+    left: 30px;
+    top: 231px;
+
+    background: #110C0C;
+    border-radius: 92px;
+}

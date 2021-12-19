@@ -1,0 +1,25 @@
+﻿.nav{
+    grid-area: navigation;
+    background: #110C0C;
+    border-radius: 92px;
+}
+.items{
+    margin-top: 112px;
+}
+
+.item {
+    margin-top: 20px;
+    align-items: center;
+    color: wheat;
+    text-decoration: none;
+    margin-left: 35px;
+    margin-right: auto;
+}
+
+.item a {    
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 18px;
+    color: #FFFFFF;
+}
