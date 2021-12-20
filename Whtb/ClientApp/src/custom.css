@@ -15,12 +15,13 @@ code {
 .app-wrapper{
   width: 1440px;
   margin-left: auto;
+  margin-right: auto;
   display: grid;
   grid-template-rows: 230px 648px 1fr;
   grid-template-columns: 380px 1fr 200px;
 
   grid-template-areas:
-          "header header header"
+          "header header profileInfoSmall"
           "navigation main main"
           "other main main"
 }

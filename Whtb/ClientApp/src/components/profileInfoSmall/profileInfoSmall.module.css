@@ -1,0 +1,19 @@
+﻿.profileInfo{
+    grid-area: profileInfoSmall;
+}
+.picture {
+    border-radius: 71px;
+    width: 200px;
+    height: 200px;
+}
+.text{
+    text-align: center;
+    font-weight: 300;
+    font-size: 32px;
+    margin-left: auto;
+    margin-right: auto;
+    word-wrap: normal;
+    width: 200px;
+    height: 76px;
+    background: rgba(196, 196, 196, 0.36);
+}
