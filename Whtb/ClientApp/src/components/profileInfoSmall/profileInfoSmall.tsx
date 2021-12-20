@@ -8,7 +8,7 @@ const ProfileInfoSmall = () =>
     return (
         <div className={s.profileInfo}>
             <div className={s.picture}>
-                <img className={s.picture} src={defaultAvatar} alt="AVATAR PICTURE"/>
+                <img className={s.picture} src={defaultAvatar} alt="AVATAR"/>
             </div>
             <div className={s.text}>
                 {userName}
