@@ -9,7 +9,6 @@ namespace Whtb.Utils
         public static T GetInstance<T>() where T : class
         {
             container ??= new Container();
-            container.GetAllInstances<T>();
             return container.GetInstance<T>();
         }
 
