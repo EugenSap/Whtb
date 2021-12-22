@@ -11,6 +11,11 @@ const _getUsers = () => {
     return instance.get(`/api/user`).then(response => response.data);
 }
 
+const _getGroups = () => {
+    return instance.get(`/api/group`).then(response => response.data);
+}
+
 export const API = {
     getUsers: _getUsers,
+    getGroups: _getGroups
 }

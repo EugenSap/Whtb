@@ -9,7 +9,7 @@ const Friends = (props: any) =>
 {
     useEffect(() => {
         props.requestUsers();
-    })
+    }, [])
     
     let users = null;
     if (props.state.users && props.state.users.length > 0)

@@ -11,7 +11,7 @@ namespace Whtb.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private static IUserRepo repo;
+        private static IUserRepo? _repo;
         
         /// <summary>
         /// Получить всех пользователей
@@ -21,8 +21,8 @@ namespace Whtb.Controllers
         [HttpGet]
         public async Task<ActionResult<IQueryable<User>>> Get()
         {
-            repo ??= IoC.GetInstance<IUserRepo>();
-            return new ObjectResult( repo.GetUsers().Select(x => new {x.Id, x.Nick}));
+            _repo ??= IoC.GetInstance<IUserRepo>();
+            return new ObjectResult( _repo.GetUsers().Select(x => new {x.Id, x.Nick}));
         }
     }
 }

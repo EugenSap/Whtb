@@ -4,10 +4,12 @@ using Whtb.Models;
 
 namespace Whtb.Repositories
 {
+    /// <summary> Фейковый репозиторий пользователей </summary>
     public class UserRepoMock : IUserRepo
     {
         private static List<User> _users;
 
+        /// <summary> .ctor </summary>
         public UserRepoMock()
         {
             if (_users == null || _users.Count < 1)
