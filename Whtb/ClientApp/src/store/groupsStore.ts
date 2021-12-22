@@ -32,8 +32,7 @@ export const reducer: Reducer<initialStateType> = (state: initialStateType | und
     switch (action.type) {
         case 'REQUEST_GROUPS':
             return {
-                groups: action.groups,
-                pageNum : state.pageNum
+                groups: action.groups
             };
     }
     return state;
