@@ -9,6 +9,7 @@ const Groups = (props: any) =>
 {
     useEffect(() => {
         props.requestGroups();
+        //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     console.log(props);
     let groups = null;

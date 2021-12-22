@@ -9,6 +9,7 @@ const Friends = (props: any) =>
 {
     useEffect(() => {
         props.requestUsers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     
     let users = null;

@@ -11,10 +11,9 @@ export interface groupType {
     groupName : string,
     remainSum : number,
     allSum : number,
-    "dateTime":string
+    dateTime:string
     groupStatus: number,
     userStatusForGroup:number
-    //remainSum:  x.AllSum, x.DateTime
 }
 const unloadedState: initialStateType = { groups: [] };
 
@@ -33,7 +32,8 @@ export const reducer: Reducer<initialStateType> = (state: initialStateType | und
     switch (action.type) {
         case 'REQUEST_GROUPS':
             return {
-                groups: action.groups
+                groups: action.groups,
+                pageNum : state.pageNum
             };
     }
     return state;
