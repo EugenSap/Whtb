@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Whtb.Repositories;
 using Whtb.Utils;
 
@@ -28,6 +31,14 @@ namespace Whtb
             IoC.Register<IUserRepo, UserRepoMock>();
             IoC.Register<IGroupRepo, GroupRepoMock>();
             
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var xmlPath = Path.Combine(basePath, "Whtb.xml");
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Whtb", Version = "v1"});
+                c.IncludeXmlComments(xmlPath, true);
+            });
+            
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
         }
@@ -37,7 +48,9 @@ namespace Whtb
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();app.UseSwagger();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Whtb v1"));
             }
             else
             {
