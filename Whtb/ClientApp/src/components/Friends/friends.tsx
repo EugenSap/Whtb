@@ -4,7 +4,20 @@ import {connect} from "react-redux";
 import {ApplicationState} from "../../store";
 import * as FriendsReducerStore from "../../store/friendsStore";
 import {useEffect} from "react";
+import defaultAvatar from "../../assets/avatar.jpg";
 
+const Friend = (id : string, name: string, picture : any) => {
+    return (
+        <div key={id}>
+            <div>
+                <img className={s.picture} src={ picture ? picture : defaultAvatar} alt="AVATAR"/>
+            </div>
+            <div>
+                {name}
+            </div>
+        </div>
+    )
+}
 const Friends = (props: any) =>
 {
     useEffect(() => {
@@ -16,7 +29,7 @@ const Friends = (props: any) =>
     if (props.state.users && props.state.users.length > 0)
     {
         console.log(props.state.users)
-        users = props.state.users.map((u : FriendsReducerStore.userType) => <div key={u.id}>{u.nick}</div>)
+        users = props.state.users.map((u : FriendsReducerStore.userType) => Friend(u.id, u.nick, null))
     }
     
     return (
