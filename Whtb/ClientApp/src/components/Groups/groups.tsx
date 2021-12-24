@@ -4,26 +4,33 @@ import {connect} from "react-redux";
 import {ApplicationState} from "../../store";
 import * as GroupsReducerStore from "../../store/groupsStore";
 import {useEffect} from "react";
+import {Link} from "react-router-dom";
 
+const Group = (props : GroupsReducerStore.groupType) => {
+  return(
+      <Link to={`group/${props.id}`}>
+      <div key={props.id} className={s.group}>
+          <div> Название группы: {props.groupName} </div>
+          <div> Статус: {props.groupStatus} </div>
+          <div> Статус пользователя: {props.userStatusForGroup} </div>
+          <div> Дата: {props.dateTime} </div>
+          <div> Остаток: {props.remainSum} </div>
+          <div> Всего: {props.allSum} </div>
+      </div>
+      </Link>
+  )
+}
 const Groups = (props: any) =>
 {
     useEffect(() => {
         props.requestGroups();
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    console.log(props);
     let groups = null;
     if (props.state.groups && props.state.groups.length > 0)
     {
         console.log(props.state.groups)
-        groups = props.state.groups.map((g : GroupsReducerStore.groupType) => <div key={g.id}>
-            <div> Название группы: {g.groupName} </div>
-            <div> Статус: {g.groupStatus} </div>
-            <div> Статус пользователя: {g.userStatusForGroup} </div>
-            <div> Дата: {g.dateTime} </div>
-            <div> Остаток: {g.remainSum} </div>
-            <div> Всего: {g.allSum} </div>
-        </div>)
+        groups = props.state.groups.map((g : GroupsReducerStore.groupType) => Group(g))
     }
     
     return (

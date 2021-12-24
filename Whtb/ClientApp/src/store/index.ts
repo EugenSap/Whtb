@@ -2,12 +2,14 @@ import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
 import * as Friends from './friendsStore';
 import * as Groups from './groupsStore';
+import * as Group from './groupStore';
 // The top-level state object
 export interface ApplicationState {
     counter: Counter.CounterState | undefined;
     weatherForecasts: WeatherForecasts.WeatherForecastsState | undefined;
     friends : Friends.initialStateType | undefined;
     groups : Groups.initialStateType | undefined;
+    group : Group.initialStateType | undefined;
 }
 
 // Whenever an action is dispatched, Redux will update each top-level application state property using
@@ -17,7 +19,8 @@ export const reducers = {
     counter: Counter.reducer,
     weatherForecasts: WeatherForecasts.reducer,
     friends: Friends.reducer,
-    groups: Groups.reducer
+    groups: Groups.reducer,
+    group: Group.reducer
 };
 
 // This type can be used as a hint on action creators so that its 'dispatch' and 'getState' params are

@@ -5,6 +5,7 @@ import ProfileInfoSmall from "./components/profileInfoSmall/profileInfoSmall";
 import {Route} from "react-router";
 import Friends from "./components/Friends/friends";
 import Groups from "./components/Groups/groups";
+import Group from "./components/Group/group";
 
 export default () => (
     <div className="app-wrapper">
@@ -12,6 +13,7 @@ export default () => (
         <ProfileInfoSmall/>
         <Route path='/friends' component={Friends} />
         <Route path='/groups' component={Groups} />
+        <Route path='/group/:id' component={Group} />
     </div>
     
     /*<Layout>

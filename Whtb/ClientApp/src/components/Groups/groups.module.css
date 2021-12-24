@@ -1,3 +1,9 @@
 ﻿.friends{
     grid-area: main;
 }
+
+.group{
+    background: wheat;
+    width: 200px;
+    height: 200px;
+}

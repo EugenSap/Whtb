@@ -1,9 +1,10 @@
 import {Action, Reducer} from "redux";
 import {AppThunkAction} from "./index";
 import {API} from "../api/api";
+import {userType} from "./friendsStore";
 
 export interface initialStateType  {
-    groups: Array<groupType>,
+    group: groupType | undefined
 }
 
 export interface groupType {
@@ -11,15 +12,23 @@ export interface groupType {
     groupName : string,
     remainSum : number,
     allSum : number,
-    dateTime:string
-    groupStatus: number,
-    userStatusForGroup:number
+    dateTime : string
+    groupStatus : number,
+    userStatusForGroup : number,
+    users : Array<userType>,
+    purchases : Array<purchaseType>,
 }
-const unloadedState: initialStateType = { groups: [] };
+
+export interface purchaseType {
+    id : string,
+    name : string,
+    cost : number
+}
+const unloadedState: initialStateType = { group: undefined };
 
 interface RequestGroups {
-    type: 'REQUEST_GROUPS';
-    groups: Array<groupType>
+    type: 'REQUEST_GROUP';
+    group: groupType
 }
 
 type KnownAction = RequestGroups;
@@ -30,18 +39,18 @@ export const reducer: Reducer<initialStateType> = (state: initialStateType | und
     }
     const action = incomingAction as KnownAction;
     switch (action.type) {
-        case 'REQUEST_GROUPS':
+        case 'REQUEST_GROUP':
             return {
-                groups: action.groups
+                group: action.group
             };
     }
     return state;
 };
 
 export const actionCreators = {
-    requestGroups: (): AppThunkAction<KnownAction> => async (dispatch) => {
-        let response = await API.getGroups();
-        dispatch({ type: 'REQUEST_GROUPS', groups: response })
+    requestGroup: (userId : string, groupId : string): AppThunkAction<KnownAction> => async (dispatch) => {
+        let response = await API.getGroup(userId, groupId);
+        dispatch({ type: 'REQUEST_GROUP', group: response })
     }
 };
 

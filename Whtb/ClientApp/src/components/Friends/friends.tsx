@@ -28,7 +28,6 @@ const Friends = (props: any) =>
     let users = null;
     if (props.state.users && props.state.users.length > 0)
     {
-        console.log(props.state.users)
         users = props.state.users.map((u : FriendsReducerStore.userType) => Friend(u.id, u.nick, null))
     }
     

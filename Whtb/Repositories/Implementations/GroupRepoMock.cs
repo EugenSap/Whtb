@@ -18,6 +18,12 @@ namespace Whtb.Repositories
             _userRepo = IoC.GetInstance<IUserRepo>();
             if (_groups == null || _groups.Count < 1)
             {
+                var purchase = new Purchase()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Покупка1",
+                    Cost = 10
+                };
                 var grp1 = new Group()
                 {
                     Id = Guid.NewGuid(),
@@ -26,7 +32,9 @@ namespace Whtb.Repositories
                     AllSum = 100,
                     RemainSum = 50,
                     GroupStatus = GroupStatus.NotComplete,
-                    UserStatusForGroup = UserStatusForGroup.Complete
+                    UserStatusForGroup = UserStatusForGroup.Complete,
+                    Users = _userRepo.GetUsers(),
+                    Purchases = new List<Purchase>{purchase}
                 };
 
                 _groups = new List<Group> {grp1};
@@ -42,6 +50,12 @@ namespace Whtb.Repositories
             }
 
             return _groups.Where(x => x.Users.Any(z => z.Id == userId)).ToList();
+        }
+        
+        /// <inheritdoc/>
+        public Group GetGroupById(Guid userId, Guid groupId)
+        {
+            return _groups[0];
         }
     }
 }

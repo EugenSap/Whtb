@@ -1,0 +1,19 @@
+﻿.group{
+    grid-area: main;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 70px 1fr;
+    grid-template-areas:
+    "header header"
+    "purchases users"
+}
+
+.head{
+    grid-area: header;
+}
+.purchases{
+    grid-area: purchases;
+}
+.users{
+    grid-area: users;
+}

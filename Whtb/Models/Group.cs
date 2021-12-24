@@ -12,6 +12,7 @@ namespace Whtb.Models
         public Group()
         {
             Users = new List<User>();
+            Purchases = new List<Purchase>();
             GroupName = string.Empty;
         }
         
@@ -44,5 +45,8 @@ namespace Whtb.Models
         
         /// <summary> Статус пользователя в группе </summary>
         public UserStatusForGroup UserStatusForGroup { get; set; }
+        
+        /// <summary> Список покупок </summary>
+        public List<Purchase> Purchases { get; set; }
     }
 }
