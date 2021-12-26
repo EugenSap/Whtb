@@ -9,15 +9,6 @@ import {groupType, purchaseType} from "../../store/groupStore";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import {userType} from "../../store/friendsStore";
 
-const User = (props: any) => {
-    return (
-        <div key={props.id} className={s.user}>
-            <div>{props.nick}</div>
-            <div>{props.id}</div>
-        </div>
-    )
-}
-
 const Column = (props: any) => {
     let purchases = props.purchases && props.purchases.length > 0 ? props.purchases : []
     let items = purchases.map((p: purchaseType, index: number) => (
@@ -94,8 +85,8 @@ const Area = (props: any) => {
             return;
         }
 
-        const start = state.columns.filter((x: columnType) => x.id == source.droppableId)[0];
-        const finish = state.columns.filter((x: columnType) => x.id == destination.droppableId)[0];
+        const start = state.columns.filter((x: columnType) => x.id === source.droppableId)[0];
+        const finish = state.columns.filter((x: columnType) => x.id === destination.droppableId)[0];
 
         if (start === finish) {
             const newTaskIds = start.purchaseIds;
@@ -107,7 +98,7 @@ const Area = (props: any) => {
             };
             const newState = {
                 ...state,
-                columns: state.columns.filter((x : columnType) => x.id != newColumn.id)
+                columns: state.columns.filter((x : columnType) => x.id !== newColumn.id)
                 //[newColumn.id] : newColumn
             };
             newState.columns.push(newColumn)
@@ -132,7 +123,7 @@ const Area = (props: any) => {
 
         const newState = {
             ...state,
-            columns: state.columns.filter((x : columnType) => x.id != newStart.id && x.id != newFinish.id)
+            columns: state.columns.filter((x : columnType) => x.id !== newStart.id && x.id !== newFinish.id)
         };
         newState.columns.push(newStart)
         newState.columns.push(newFinish)
@@ -144,9 +135,9 @@ const Area = (props: any) => {
             <DragDropContext onDragEnd={onDragEnd}>
                 <div>
                     {state.columnOrder.map((columnId: string) => {
-                        const column = state.columns.filter((x: columnType) => x.id == columnId)[0];
+                        const column = state.columns.filter((x: columnType) => x.id === columnId)[0];
                         const purchases = column.purchaseIds.map(
-                            (purchaseId: string) => state.purchases.filter((x: purchaseType) => x.id == purchaseId)[0]);
+                            (purchaseId: string) => state.purchases.filter((x: purchaseType) => x.id === purchaseId)[0]);
                         return <Column key={column.id} column={column} purchases={purchases}/>;
                     })}
                 </div>
