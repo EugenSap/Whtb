@@ -7,13 +7,30 @@
     "header header"
     "purchases users"
 }
-
+.group2{
+    grid-area: main;
+}
 .head{
     grid-area: header;
 }
 .purchases{
     grid-area: purchases;
 }
+
+.purchase{
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: white;
+}
+
 .users{
     grid-area: users;
+}
+.user{
+    margin: 8px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    min-height: 100px;
 }

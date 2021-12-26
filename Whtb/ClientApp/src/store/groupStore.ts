@@ -23,6 +23,7 @@ export interface purchaseType {
     id : string,
     name : string,
     cost : number
+    user : string
 }
 const unloadedState: initialStateType = { group: undefined };
 

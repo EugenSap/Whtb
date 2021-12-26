@@ -18,12 +18,34 @@ namespace Whtb.Repositories
             _userRepo = IoC.GetInstance<IUserRepo>();
             if (_groups == null || _groups.Count < 1)
             {
-                var purchase = new Purchase()
+                var usr = new User()
                 {
                     Id = Guid.NewGuid(),
-                    Name = "Покупка1",
-                    Cost = 10
+                    Nick = "Неназначенные покупки"
+
                 };
+                var purchase = new Purchase()
+                {
+                    Id = Guid.Parse("AA0F1A58-A451-4514-8301-A1C305397682"),
+                    Name = "Покупка1",
+                    Cost = 10,
+                    User = usr
+                };
+                var purchase2 = new Purchase()
+                {
+                    Id = Guid.Parse("3C2F5AF5-3FCE-4200-B7FD-40CEAC375A00"),
+                    Name = "Покупка2",
+                    Cost = 120,
+                    User = usr
+                };
+                var purchase3 = new Purchase()
+                {
+                    Id = Guid.Parse("B4A2D19C-3FE5-4AB3-BE2E-CE497BCB1D2F"),
+                    Name = "Покупка3",
+                    Cost = 120,
+                    User = usr
+                };
+                
                 var grp1 = new Group()
                 {
                     Id = Guid.NewGuid(),
@@ -33,10 +55,11 @@ namespace Whtb.Repositories
                     RemainSum = 50,
                     GroupStatus = GroupStatus.NotComplete,
                     UserStatusForGroup = UserStatusForGroup.Complete,
-                    Users = _userRepo.GetUsers(),
-                    Purchases = new List<Purchase>{purchase}
+                    Purchases = new List<Purchase>{purchase, purchase2,purchase3}
                 };
-
+                
+                grp1.Users.Add(usr);
+                grp1.Users.AddRange(_userRepo.GetUsers());
                 _groups = new List<Group> {grp1};
             }
         }

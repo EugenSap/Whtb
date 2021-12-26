@@ -16,7 +16,10 @@ const _getGroups = () => {
 }
 
 const _getGroup = (userId : string, groupId : string) => {
-    return instance.get(`/api/group/GetGroupById?userId=${userId}&groupId=${groupId}`).then(response => response.data);
+    return instance.get(`/api/group/GetGroupById?userId=${userId}&groupId=${groupId}`).then(response =>
+    {
+        return response.data}
+    );
 }
 
 export const API = {

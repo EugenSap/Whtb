@@ -6,6 +6,7 @@ import {Route} from "react-router";
 import Friends from "./components/Friends/friends";
 import Groups from "./components/Groups/groups";
 import Group from "./components/Group/group";
+import Group2 from "./components/Group/group2";
 
 export default () => (
     <div className="app-wrapper">
@@ -13,12 +14,6 @@ export default () => (
         <ProfileInfoSmall/>
         <Route path='/friends' component={Friends} />
         <Route path='/groups' component={Groups} />
-        <Route path='/group/:id' component={Group} />
+        <Route path='/group/:id' component={Group2} />
     </div>
-    
-    /*<Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data/:startDateIndex?' component={FetchData} />
-    </Layout>*/
 );

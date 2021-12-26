@@ -29,7 +29,6 @@ const Groups = (props: any) =>
     let groups = null;
     if (props.state.groups && props.state.groups.length > 0)
     {
-        console.log(props.state.groups)
         groups = props.state.groups.map((g : GroupsReducerStore.groupType) => Group(g))
     }
     

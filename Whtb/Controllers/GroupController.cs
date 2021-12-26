@@ -40,8 +40,8 @@ namespace Whtb.Controllers
         {
             var group = _repo.GetGroupById(userId, groupId);
             var users = group.Users.Select(x => new {x.Id, x.Nick});
-            var purchases = group.Purchases.Select(x => new {x.Id, x.Name, x.Cost});
-            return new ObjectResult( new
+            var purchases = group.Purchases.Select(x => new {x.Id, x.Name, x.Cost, User = x.User.Id});
+            var o = new ObjectResult( new
             {
                 group.Id,
                 group.GroupName,
@@ -53,6 +53,7 @@ namespace Whtb.Controllers
                 users,
                 purchases,
             });
+            return o;
         }
     }
 }
