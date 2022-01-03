@@ -18,6 +18,6 @@ namespace Whtb.Models
         public bool Complited { get; set; }
         
         /// <summary> Пользователь </summary>
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

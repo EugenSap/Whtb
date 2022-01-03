@@ -3,6 +3,8 @@ import * as Counter from './Counter';
 import * as Friends from './friendsStore';
 import * as Groups from './groupsStore';
 import * as Group from './groupStore';
+import { reducer as reduxFormReducer } from 'redux-form';
+
 // The top-level state object
 export interface ApplicationState {
     counter: Counter.CounterState | undefined;
@@ -20,7 +22,8 @@ export const reducers = {
     weatherForecasts: WeatherForecasts.reducer,
     friends: Friends.reducer,
     groups: Groups.reducer,
-    group: Group.reducer
+    group: Group.reducer,
+    form: reduxFormReducer,
 };
 
 // This type can be used as a hint on action creators so that its 'dispatch' and 'getState' params are

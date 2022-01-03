@@ -22,8 +22,20 @@ const _getGroup = (userId : string, groupId : string) => {
     );
 }
 
+const _addPurchase = (purchaseName: string, purchaseCost: number, groupId: string, userId: string) => {
+        return instance.post(`/api/group/AddPurchase?purchaseName=${purchaseName}&purchaseCost=${purchaseCost}&groupId=${groupId}&userId=${userId}`)
+            .then(response => response.data);
+}
+
+const _assignPurchase = (groupId: string, userId: string, purchaseId: string) => {
+    return instance.post(`/api/group/AssignPurchase?groupId=${groupId}&userId=${userId}&purchaseId=${purchaseId}`)
+        .then(response => response.data);
+}
+
 export const API = {
     getUsers: _getUsers,
     getGroups: _getGroups,
-    getGroup: _getGroup
+    getGroup: _getGroup,
+    addPurchase: _addPurchase,
+    assignPurchase: _assignPurchase
 }

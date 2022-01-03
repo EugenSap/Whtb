@@ -3,7 +3,7 @@ import {AppThunkAction} from "./index";
 import {API} from "../api/api";
 import {userType} from "./friendsStore";
 
-export interface initialStateType  {
+export interface initialStateType {
     group: groupType | undefined
 }
 
@@ -52,6 +52,16 @@ export const actionCreators = {
     requestGroup: (userId : string, groupId : string): AppThunkAction<KnownAction> => async (dispatch) => {
         let response = await API.getGroup(userId, groupId);
         dispatch({ type: 'REQUEST_GROUP', group: response })
-    }
+    },
+
+    addPurchase: (purchaseName: string, purchaseCost: number, groupId: string, userId: string): AppThunkAction<KnownAction> => async (dispatch) => {
+        let response = await API.addPurchase(purchaseName, purchaseCost, groupId, userId);
+        dispatch({ type: 'REQUEST_GROUP', group: response })
+    },
+
+    assignPurchase:  (groupId: string, userId: string, purchaseId: string): AppThunkAction<KnownAction> => async (dispatch) => {
+    let response = await API.assignPurchase(groupId, userId, purchaseId);
+    dispatch({ type: 'REQUEST_GROUP', group: response })
+    },
 };
 
