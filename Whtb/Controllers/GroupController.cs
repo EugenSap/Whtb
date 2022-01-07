@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Whtb.Models;
 using Whtb.Repositories;
@@ -25,9 +26,11 @@ namespace Whtb.Controllers
         /// <param name="guid">user Id</param>
         /// <returns>user's groups</returns>
         [HttpGet]
-        public async Task<ActionResult<IQueryable<object>>> Get(Guid guid)
+        [Authorize]
+        public async Task<ActionResult<IQueryable<object>>> Get()
         {
-            return new ObjectResult( _repo.GetUserGroups(Guid.Empty).Select(x => new {x.Id, x.GroupName, x.RemainSum, x.AllSum, x.DateTime, x.GroupStatus, x.UserStatusForGroup}));
+            var id = User.Claims.Where(x => x.Type.Equals("Id")).First().Value;
+            return new ObjectResult( _repo.GetUserGroups(Guid.Parse(id)).Select(x => new {x.Id, x.GroupName, x.RemainSum, x.AllSum, x.DateTime, x.GroupStatus, x.UserStatusForGroup}));
         }
         
         /// <summary>

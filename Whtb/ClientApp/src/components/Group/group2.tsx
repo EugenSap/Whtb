@@ -10,6 +10,7 @@ import {userType} from "../../store/friendsStore";
 import Modal from "../modal/Modal";
 import Area, {columnType, stateType} from "../Area/Area";
 import NewPurchase from "../NewPurchase/NewPurchase";
+import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
 
 const Group2 = (props: any) => {
     const [modalActive, setModalActive] = useState(false);
@@ -73,7 +74,6 @@ const Group2 = (props: any) => {
         props.assignPurchase(id, userId, purchaseId)
     }
 
-    //setState(st)
     return (
         <div className={s.group2}>
             <Modal active={modalActive} setActive={setModalActive}>
@@ -85,8 +85,11 @@ const Group2 = (props: any) => {
         )
 
 }
-
-export default connect(
-    (state: ApplicationState) => ({state: state.group}), // Selects which state properties are merged into the component's props
-    GroupReducerStore.actionCreators // Selects which action creators are merged into the component's props
-)(Group2 as any);
+let mapStateToProps = (state : ApplicationState) => {
+    return {
+        state: state.group,
+        user: state.login
+    }
+}
+let connected = connect(mapStateToProps, GroupReducerStore.actionCreators)(Group2)
+export default WithAuthRedirect(connected)

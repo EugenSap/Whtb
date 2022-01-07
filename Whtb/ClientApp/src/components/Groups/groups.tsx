@@ -5,6 +5,7 @@ import {ApplicationState} from "../../store";
 import * as GroupsReducerStore from "../../store/groupsStore";
 import {useEffect} from "react";
 import {Link} from "react-router-dom";
+import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
 
 const Group = (props : GroupsReducerStore.groupType) => {
   return(
@@ -39,9 +40,9 @@ const Groups = (props: any) =>
     )
 }
 
-//export default Friends;
-
-export default connect(
-    (state: ApplicationState) => ({ state: state.groups }), // Selects which state properties are merged into the component's props
+let connected = connect(
+    (state: ApplicationState) => ({ state: state.groups, user: state.login }), // Selects which state properties are merged into the component's props
     GroupsReducerStore.actionCreators // Selects which action creators are merged into the component's props
 )(Groups as any);
+
+export default WithAuthRedirect(connected)

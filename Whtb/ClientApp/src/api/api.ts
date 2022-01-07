@@ -1,35 +1,46 @@
 import axios from "axios";
 
-const instance = axios.create(
+const instance = (token : string | null) => axios.create(
     {
         headers: {
+            Authorization: `Bearer ${token}`
         }
     }
 )
 
 const _getUsers = () => {
-    return instance.get(`/api/user`).then(response => response.data);
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).get(`/api/user`).then(response => response.data);
 }
 
 const _getGroups = () => {
-    return instance.get(`/api/group?guid=00000000-0000-0000-0000-000000000000`).then(response => response.data);
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).get(`/api/group`).then(response => response.data);
 }
 
 const _getGroup = (userId : string, groupId : string) => {
-    return instance.get(`/api/group/GetGroupById?userId=${userId}&groupId=${groupId}`).then(response =>
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).get(`/api/group/GetGroupById?userId=${userId}&groupId=${groupId}`).then(response =>
     {
         return response.data}
     );
 }
 
 const _addPurchase = (purchaseName: string, purchaseCost: number, groupId: string, userId: string) => {
-        return instance.post(`/api/group/AddPurchase?purchaseName=${purchaseName}&purchaseCost=${purchaseCost}&groupId=${groupId}&userId=${userId}`)
+    let token = sessionStorage.getItem('tokenKey')
+        return instance(token).post(`/api/group/AddPurchase?purchaseName=${purchaseName}&purchaseCost=${purchaseCost}&groupId=${groupId}&userId=${userId}`)
             .then(response => response.data);
 }
 
 const _assignPurchase = (groupId: string, userId: string, purchaseId: string) => {
-    return instance.post(`/api/group/AssignPurchase?groupId=${groupId}&userId=${userId}&purchaseId=${purchaseId}`)
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).post(`/api/group/AssignPurchase?groupId=${groupId}&userId=${userId}&purchaseId=${purchaseId}`)
         .then(response => response.data);
+}
+
+const _login = (login: string, password: string) => {
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).post(`/api/Auth/Login?username=${login}&password=${password}`).then(response => response.data);
 }
 
 export const API = {
@@ -37,5 +48,6 @@ export const API = {
     getGroups: _getGroups,
     getGroup: _getGroup,
     addPurchase: _addPurchase,
-    assignPurchase: _assignPurchase
+    assignPurchase: _assignPurchase,
+    login: _login
 }

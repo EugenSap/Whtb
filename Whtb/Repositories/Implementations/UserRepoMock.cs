@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Whtb.Models;
 
 namespace Whtb.Repositories
@@ -41,6 +42,11 @@ namespace Whtb.Repositories
         public List<User> GetUsers()
         {
             return _users;
+        }
+
+        public User? GetUserByLoginAndPassword(string login, string password)
+        {
+            return _users.Where(x => x.Login == login && x.Password == password).SingleOrDefault();
         }
     }
 }

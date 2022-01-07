@@ -11,5 +11,13 @@ namespace Whtb.Repositories
         /// </summary>
         /// <returns>список всех пользователей</returns>
         List<User> GetUsers();
+
+        /// <summary>
+        /// Найти пользователя по логину и паролю
+        /// </summary>
+        /// <param name="login">login</param>
+        /// <param name="password">password</param>
+        /// <returns>пользователь</returns>
+        User? GetUserByLoginAndPassword(string login, string password);
     }
 }

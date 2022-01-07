@@ -6,6 +6,8 @@ import * as GroupReducerStore from "../../store/groupStore";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {groupType} from "../../store/groupStore";
+import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
+import {compose} from "redux";
 
 const User = (props: any) => {
     return (
@@ -58,9 +60,15 @@ const Group = (props: any) => {
     )
 }
 
-//export default Friends;
+let mapStateToProps = (state : ApplicationState) => {
+    return {
+        state: state.group,
+        user: state.login
+    }
+}
 
-export default connect(
-    (state: ApplicationState) => ({state: state.group}), // Selects which state properties are merged into the component's props
-    GroupReducerStore.actionCreators // Selects which action creators are merged into the component's props
-)(Group as any);
+export default compose(
+    connect(mapStateToProps, GroupReducerStore.actionCreators),
+    WithAuthRedirect,
+)
+(Group)
