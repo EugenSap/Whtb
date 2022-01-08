@@ -12,7 +12,6 @@ import Area, {columnType, stateType} from "../Area/Area";
 import NewPurchase from "../NewPurchase/NewPurchase";
 import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
 import {compose} from "redux";
-import * as GroupsReducerStore from "../../store/groupsStore";
 
 const Group2 = (props: any) => {
     const [modalActive, setModalActive] = useState(false);
