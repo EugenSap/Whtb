@@ -11,6 +11,8 @@ import Modal from "../modal/Modal";
 import Area, {columnType, stateType} from "../Area/Area";
 import NewPurchase from "../NewPurchase/NewPurchase";
 import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
+import {compose} from "redux";
+import * as GroupsReducerStore from "../../store/groupsStore";
 
 const Group2 = (props: any) => {
     const [modalActive, setModalActive] = useState(false);
@@ -91,5 +93,6 @@ let mapStateToProps = (state : ApplicationState) => {
         user: state.login
     }
 }
-let connected = connect(mapStateToProps, GroupReducerStore.actionCreators)(Group2)
-export default WithAuthRedirect(connected)
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, GroupReducerStore.actionCreators),
+    WithAuthRedirect)(Group2 as any);

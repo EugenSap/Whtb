@@ -8,7 +8,6 @@ import {useHistory} from "react-router-dom";
 
 let Login = (props : any) => {
     let history = useHistory();
-    console.log(history);
     let onSubmit = (FormData : any) => {
         props.login(FormData.Login, FormData.Password);
         history.push('/')

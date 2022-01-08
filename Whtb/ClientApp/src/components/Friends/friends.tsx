@@ -6,6 +6,8 @@ import * as FriendsReducerStore from "../../store/friendsStore";
 import {useEffect} from "react";
 import defaultAvatar from "../../assets/avatar.jpg";
 import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
+import {compose} from "redux";
+import * as GroupReducerStore from "../../store/groupStore";
 
 const Friend = (id : string, name: string, picture : any) => {
     return (
@@ -39,10 +41,8 @@ const Friends = (props: any) =>
     )
 }
 
-let connected = connect(
-    (state: ApplicationState) => ({ state: state.friends, user: state.login }), // Selects which state properties are merged into the component's props
-    FriendsReducerStore.actionCreators // Selects which action creators are merged into the component's props
-)(Friends as any);
-
-export default WithAuthRedirect(connected)
+export default compose<React.ComponentType>(
+    connect((state: ApplicationState) => ({ state: state.friends, user: state.login }), FriendsReducerStore.actionCreators),
+    WithAuthRedirect)
+(Friends as any);
 
