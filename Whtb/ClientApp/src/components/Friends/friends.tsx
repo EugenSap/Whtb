@@ -7,7 +7,6 @@ import {useEffect} from "react";
 import defaultAvatar from "../../assets/avatar.jpg";
 import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
 import {compose} from "redux";
-import * as GroupReducerStore from "../../store/groupStore";
 
 const Friend = (id : string, name: string, picture : any) => {
     return (
