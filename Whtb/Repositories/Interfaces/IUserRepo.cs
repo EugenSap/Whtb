@@ -19,5 +19,14 @@ namespace Whtb.Repositories
         /// <param name="password">password</param>
         /// <returns>пользователь</returns>
         User? GetUserByLoginAndPassword(string login, string password);
+
+        /// <summary>
+        /// Зарегать пользователя
+        /// </summary>
+        /// <param name="login">login</param>
+        /// <param name="nick">nick</param>
+        /// <param name="password">password</param>
+        /// <returns>успех/неудача</returns>
+        bool RegisterUser(string login, string nick, string password);
     }
 }

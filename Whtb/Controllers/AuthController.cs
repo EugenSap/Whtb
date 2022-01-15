@@ -26,16 +26,43 @@ namespace Whtb.Controllers
         }
         
         [HttpPost("Login")]
-        public IActionResult Login(string username, string password)
+        public IActionResult LoginController(string username, string password)
+        {
+            return Login(username, password);
+        }
+
+        [HttpPost("Register")]
+        public IActionResult Register(string username, string nick, string password)
+        {
+            if (!_repo.RegisterUser(username,nick,password))
+            {
+                return BadRequest();
+            }
+            return Login(username, password);
+        }
+
+        private IActionResult Login(string username, string password)
         {
             var identity = GetIdentity(username, password);
             if (identity == null)
             {
                 return BadRequest();
             }
+
+            var encodedJwt = GetTocken(identity);
+
+            var response = new
+            {
+                access_token = encodedJwt,
+                username = identity.Name
+            };
+
+            return Ok(response);
+        }
+
+        private string GetTocken(ClaimsIdentity identity)
+        {
             var now = DateTime.UtcNow;
-            
-            // создаем JWT-токен
             var jwt = new JwtSecurityToken(
                 issuer: AuthOptions.ISSUER,
                 audience: AuthOptions.AUDIENCE,
@@ -44,16 +71,10 @@ namespace Whtb.Controllers
                 expires: now.Add(TimeSpan.FromMinutes(AuthOptions.LIFETIME)),
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
- 
-            var response = new
-            {
-                access_token = encodedJwt,
-                username = identity.Name
-            };
-            
-            return Ok(response);
+
+            return encodedJwt;
         }
-        
+
         private ClaimsIdentity? GetIdentity(string username, string password)
         {
             var usr = _repo.GetUserByLoginAndPassword(username, password);

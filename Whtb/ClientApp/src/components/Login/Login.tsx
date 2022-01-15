@@ -9,8 +9,15 @@ import {useHistory} from "react-router-dom";
 let Login = (props : any) => {
     let history = useHistory();
     let onSubmit = (FormData : any) => {
-        props.login(FormData.Login, FormData.Password);
-        history.push('/')
+        if (!FormData.Register)
+        {
+            props.login(FormData.Login, FormData.Password);
+            history.push('/');
+        }
+        else
+        {
+            props.register(FormData.Login, FormData.Nick, FormData.Password)
+        }
     }
     return (
         <div className={s.login}>

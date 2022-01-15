@@ -48,5 +48,23 @@ namespace Whtb.Repositories
         {
             return _users.Where(x => x.Login == login && x.Password == password).SingleOrDefault();
         }
+
+        public bool RegisterUser(string login, string nick, string password)
+        {
+            if (_users.Any(x => x.Login == login || x.Nick == nick))
+            {
+                return false;
+            }
+
+            var usr = new User()
+            {
+                Id = Guid.NewGuid(),
+                Login = login,
+                Nick = nick,
+                Password = password
+            };
+            _users.Add(usr);
+            return true;
+        }
     }
 }
