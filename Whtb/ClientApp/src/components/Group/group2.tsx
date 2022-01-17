@@ -90,12 +90,13 @@ const Group2 = (props: any) => {
 
     return (
         <div className={s.group2}>
+            <DatePicker selected={startDate} onChange={(date:Date) => setDate(date)} />
             <Modal active={modalActive} setActive={setModalActive}>
                 <NewPurchase onSubmit = {onSubmit}/>
             </Modal>
             <Area setState={setState} state={state} assignPurchase={assignPurchase}/>
             <button onClick={() => setModalActive(true)}>New purchase</button>
-            <DatePicker selected={startDate} onChange={(date:Date) => setDate(date)} />
+            
         </div>
         )
 

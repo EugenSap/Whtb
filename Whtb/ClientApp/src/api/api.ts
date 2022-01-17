@@ -18,6 +18,11 @@ const _getGroups = () => {
     return instance(token).get(`/api/group`).then(response => response.data);
 }
 
+const _createGroup = (groupName: string, date: Date) => {
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).post(`/api/group/CreateGroup?groupName=${groupName}&date=${date}`).then(response => response.data);
+}
+
 const _getGroup = (userId : string, groupId : string) => {
     let token = sessionStorage.getItem('tokenKey')
     return instance(token).get(`/api/group/GetGroupById?userId=${userId}&groupId=${groupId}`).then(response =>
@@ -56,6 +61,7 @@ const register = (login: string, nick: string, password: string) => {
 export const API = {
     getUsers: _getUsers,
     getGroups: _getGroups,
+    createGroup: _createGroup,
     getGroup: _getGroup,
     addPurchase: _addPurchase,
     assignPurchase: _assignPurchase,

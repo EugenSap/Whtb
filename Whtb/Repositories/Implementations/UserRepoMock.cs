@@ -66,5 +66,11 @@ namespace Whtb.Repositories
             _users.Add(usr);
             return true;
         }
+
+        /// <inheritdoc/>
+        public User? GetUserById(Guid userId)
+        {
+            return _users.Where(x => x.Id == userId).SingleOrDefault();
+        }
     }
 }

@@ -42,6 +42,9 @@ export const actionCreators = {
     requestGroups: (): AppThunkAction<KnownAction> => async (dispatch) => {
         let response = await API.getGroups();
         dispatch({ type: 'REQUEST_GROUPS', groups: response })
+    },
+    createGroup: (groupName: string, date: Date): AppThunkAction<KnownAction> => async (dispatch) => {
+        await API.createGroup(groupName, date);
     }
 };
 

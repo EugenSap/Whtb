@@ -78,7 +78,26 @@ namespace Whtb.Repositories
         /// <inheritdoc/>
         public Group GetGroupById(Guid userId, Guid groupId)
         {
-            return _groups[0];
+            return _groups.Where(x => x.Id == groupId).SingleOrDefault();
+        }
+
+        /// <inheritdoc/>
+        public Group CreateGroup(string groupName, DateTime date, Guid userId)
+        {
+            var user = _userRepo.GetUserById(userId);
+            if (user == null)
+            {
+                return null;
+            }
+            var group = new Group()
+            {
+                Id = Guid.NewGuid(),
+                GroupName = groupName,
+                DateTime = date,
+            };
+            group.Users.Add(user);
+            _groups.Add(group);
+            return group;
         }
     }
 }

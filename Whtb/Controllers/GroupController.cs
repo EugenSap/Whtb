@@ -103,6 +103,21 @@ namespace Whtb.Controllers
             return o;
         }
 
+        /// <summary>
+        /// SetGroupDate
+        /// </summary>
+        /// <param name="groupName">groupName</param>
+        /// <param name="date">date</param>
+        /// <returns>group</returns>
+        [HttpPost("CreateGroup")]
+        [Authorize]
+        public async Task<ActionResult<IQueryable<object>>> CreateGroup(string groupName, DateTime date)
+        {
+            var id = Guid.Parse(User.Claims.Where(x => x.Type.Equals("Id")).First().Value);
+            var group = _repo.CreateGroup(groupName, date, id);
+            return new ObjectResult(group);
+        }
+
         private async Task<ActionResult<IQueryable<object>>> GetGroupData(Group group)
         {
             var users = group.Users.Select(x => new {x.Id, x.Nick});

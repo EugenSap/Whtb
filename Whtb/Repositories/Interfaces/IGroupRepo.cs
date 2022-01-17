@@ -21,5 +21,14 @@ namespace Whtb.Repositories
         /// <param name="groupId">groupId</param>
         /// <returns>Группа</returns>
         Group GetGroupById(Guid userId, Guid groupId);
+
+        /// <summary>
+        /// Создать группу
+        /// </summary>
+        /// <param name="groupName">groupName</param>
+        /// <param name="date">date</param>
+        /// <param name="userId">userId</param>
+        /// <returns>Группа</returns>
+        Group CreateGroup(string groupName, DateTime date, Guid userId);
     }
 }

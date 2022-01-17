@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Whtb.Models;
 
 namespace Whtb.Repositories
@@ -19,6 +20,13 @@ namespace Whtb.Repositories
         /// <param name="password">password</param>
         /// <returns>пользователь</returns>
         User? GetUserByLoginAndPassword(string login, string password);
+
+        /// <summary>
+        /// Найти пользователя по Id
+        /// </summary>
+        /// <param name="userId">userId</param>
+        /// <returns>пользователь</returns>
+        User? GetUserById(Guid userId);
 
         /// <summary>
         /// Зарегать пользователя

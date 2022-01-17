@@ -9,7 +9,6 @@ interface user {
 function WithAuthRedirect<T extends withUser = withUser> (Component: React.ComponentType<T>) {
 
     const WrappedComponent = (props: T) => {
-        console.log(props)
         if (props.user && props.user.userName)
         {
             return <Component {...(props as T)}/>
@@ -18,7 +17,6 @@ function WithAuthRedirect<T extends withUser = withUser> (Component: React.Compo
     };
 
     return WrappedComponent;
-    //(props: T) =>  props.user.userName ? <Redirect to={'/login'}/> : <Component {...props}/>
 }
 
 export default WithAuthRedirect
