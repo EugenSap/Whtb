@@ -86,6 +86,23 @@ namespace Whtb.Controllers
             var o = await GetGroupData(group);
             return o;
         }
+
+        /// <summary>
+        /// SetGroupDate
+        /// </summary>
+        /// <param name="groupId">groupId</param>
+        /// <param name="date">date</param>
+        /// <param name="userId">userId</param>
+        /// <returns>group</returns>
+        [HttpPost("SetGroupDate")]
+        public async Task<ActionResult<IQueryable<object>>> SetGroupDate(Guid groupId, DateTime date)
+        {
+            var group = _repo.GetGroupById(Guid.Empty, groupId);
+            group.DateTime = date;
+            var o = await GetGroupData(group);
+            return o;
+        }
+
         private async Task<ActionResult<IQueryable<object>>> GetGroupData(Group group)
         {
             var users = group.Users.Select(x => new {x.Id, x.Nick});

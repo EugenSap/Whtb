@@ -38,6 +38,12 @@ const _assignPurchase = (groupId: string, userId: string, purchaseId: string) =>
         .then(response => response.data);
 }
 
+const _setGroupDate = (groupId: string, date: Date) => {
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).post(`/api/group/SetGroupDate?groupId=${groupId}&date=${date}`)
+        .then(response => response.data);
+}
+
 const _login = (login: string, password: string) => {
     let token = sessionStorage.getItem('tokenKey')
     return instance(token).post(`/api/Auth/Login?username=${login}&password=${password}`).then(response => response.data);
@@ -54,5 +60,6 @@ export const API = {
     addPurchase: _addPurchase,
     assignPurchase: _assignPurchase,
     login: _login,
-    register: register
+    register: register,
+    setGroupDate: _setGroupDate
 }

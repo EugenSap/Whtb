@@ -63,5 +63,10 @@ export const actionCreators = {
     let response = await API.assignPurchase(groupId, userId, purchaseId);
     dispatch({ type: 'REQUEST_GROUP', group: response })
     },
+
+    setGroupDate:  (groupId: string, date: Date, userId: string): AppThunkAction<KnownAction> => async (dispatch) => {
+        let response = await API.setGroupDate(groupId, date);
+        dispatch({ type: 'REQUEST_GROUP', group: response })
+        },
 };
 

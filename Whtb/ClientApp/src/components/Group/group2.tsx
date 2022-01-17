@@ -12,10 +12,12 @@ import Area, {columnType, stateType} from "../Area/Area";
 import NewPurchase from "../NewPurchase/NewPurchase";
 import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
 import {compose} from "redux";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css";
 
 const Group2 = (props: any) => {
     const [modalActive, setModalActive] = useState(false);
-    const {id} = useParams();
+    const id = useParams();
 
     useEffect(() => {
         props.requestGroup(id, id);
@@ -48,6 +50,8 @@ const Group2 = (props: any) => {
                 columnOrder: columnOrder
             };
             setState(st)
+            var date = new Date(props.state.group.dateTime)
+            setStartDate(date);
         }
     }, [props.state.group])
 
@@ -74,6 +78,15 @@ const Group2 = (props: any) => {
     {
         props.assignPurchase(id, userId, purchaseId)
     }
+    const [startDate, setStartDate] = useState(new Date());
+
+    const setDate = (date: Date) =>
+    {
+        console.log(date);
+        var date2 = date.toISOString();
+        console.log(date2);
+        props.setGroupDate(id, date2)
+    }
 
     return (
         <div className={s.group2}>
@@ -82,6 +95,7 @@ const Group2 = (props: any) => {
             </Modal>
             <Area setState={setState} state={state} assignPurchase={assignPurchase}/>
             <button onClick={() => setModalActive(true)}>New purchase</button>
+            <DatePicker selected={startDate} onChange={(date:Date) => setDate(date)} />
         </div>
         )
 
