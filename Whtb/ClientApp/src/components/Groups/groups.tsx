@@ -26,10 +26,6 @@ const Group = (props: GroupsReducerStore.groupType) => {
 }
 const Groups = (props: any) => {
     const [modalActive, setModalActive] = useState(false);
-    const createGroup = () => {
-        var date = new Date().toISOString();
-        props.createGroup('test', date);
-    }
     useEffect(() => {
         props.requestGroups();
         //eslint-disable-next-line react-hooks/exhaustive-deps

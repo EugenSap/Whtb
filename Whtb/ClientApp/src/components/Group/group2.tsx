@@ -82,9 +82,7 @@ const Group2 = (props: any) => {
 
     const setDate = (date: Date) =>
     {
-        console.log(date);
         var date2 = date.toISOString();
-        console.log(date2);
         props.setGroupDate(id, date2)
     }
 
