@@ -17,7 +17,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const Group2 = (props: any) => {
     const [modalActive, setModalActive] = useState(false);
-    const id = useParams();
+    const {id} = useParams<{id: string}>();
 
     useEffect(() => {
         props.requestGroup(id, id);
