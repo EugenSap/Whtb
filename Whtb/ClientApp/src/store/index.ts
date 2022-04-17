@@ -1,5 +1,3 @@
-import * as WeatherForecasts from './WeatherForecasts';
-import * as Counter from './Counter';
 import * as Friends from './friendsStore';
 import * as Groups from './groupsStore';
 import * as Group from './groupStore';
@@ -8,8 +6,6 @@ import { reducer as reduxFormReducer } from 'redux-form';
 
 // The top-level state object
 export interface ApplicationState {
-    counter: Counter.CounterState | undefined;
-    weatherForecasts: WeatherForecasts.WeatherForecastsState | undefined;
     friends : Friends.initialStateType | undefined;
     groups : Groups.initialStateType | undefined;
     group : Group.initialStateType | undefined;
@@ -20,8 +16,6 @@ export interface ApplicationState {
 // the reducer with the matching name. It's important that the names match exactly, and that the reducer
 // acts on the corresponding ApplicationState property type.
 export const reducers = {
-    counter: Counter.reducer,
-    weatherForecasts: WeatherForecasts.reducer,
     friends: Friends.reducer,
     groups: Groups.reducer,
     group: Group.reducer,
