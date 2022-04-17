@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Whtb.Models;
 
 namespace Whtb.Repositories
@@ -12,7 +13,7 @@ namespace Whtb.Repositories
         /// </summary>
         /// <param name="userId"> Id пользователя</param>
         /// <returns>Группы пользователя</returns>
-        List<Group> GetUserGroups(Guid userId);
+        IQueryable<Group> GetUserGroups(Guid userId);
 
         /// <summary>
         /// Получить группу по Id

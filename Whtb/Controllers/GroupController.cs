@@ -7,6 +7,8 @@ using Whtb.Models;
 using Whtb.Repositories;
 using Whtb.Utils;
 
+using Xtensive.Orm;
+
 namespace Whtb.Controllers
 {
     [ApiController]
@@ -59,13 +61,13 @@ namespace Whtb.Controllers
         public async Task<ActionResult<IQueryable<object>>> AddPurchase(string purchaseName, decimal purchaseCost, Guid groupId, Guid userId)
         {
             var group = _repo.GetGroupById(userId, groupId);
-            var purchase = new Purchase()
+            var purchase = new Purchase(Guid.NewGuid())
             {
                 Name = purchaseName,
                 Cost = purchaseCost,
-                Id = Guid.NewGuid()
             };
             group.Purchases.Add(purchase);
+            Session.Current.SaveChanges();
             var o = await GetGroupData(group);
             return o;
         }
@@ -83,6 +85,7 @@ namespace Whtb.Controllers
             var group = _repo.GetGroupById(userId, groupId);
             var user = group.Users.SingleOrDefault(x => x.Id == userId); 
             group.Purchases.Single(x => x.Id == purchaseId).User = user;
+            Session.Current.SaveChanges();
             var o = await GetGroupData(group);
             return o;
         }
@@ -121,7 +124,7 @@ namespace Whtb.Controllers
         private async Task<ActionResult<IQueryable<object>>> GetGroupData(Group group)
         {
             var users = group.Users.Select(x => new {x.Id, x.Nick});
-            var purchases = group.Purchases.Select(x => new {x.Id, x.Name, x.Cost, User = x.User?.Id ?? Guid.Empty});
+            var purchases = group.Purchases.Select(x => new {x.Id, x.Name, x.Cost, User = x.User != null ? x.User.Id : Guid.Empty});
             var o = new ObjectResult( new
             {
                 group.Id,

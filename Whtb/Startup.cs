@@ -12,13 +12,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Xtensive.Orm.Configuration;
+using Xtensive.Orm;
 using Whtb.Repositories;
+using Whtb.Services;
 using Whtb.Utils;
 
 namespace Whtb
 {
     public class Startup
     {
+        public static Domain domain;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,8 +36,8 @@ namespace Whtb
         {
             services.AddControllersWithViews();
             
-            IoC.Register<IUserRepo, UserRepoMock>();
-            IoC.Register<IGroupRepo, GroupRepoMock>();
+            IoC.Register<IUserRepo, UserRepo>();
+            IoC.Register<IGroupRepo, GroupRepo>();
             
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             var xmlPath = Path.Combine(basePath, "Whtb.xml");
@@ -68,6 +73,10 @@ namespace Whtb
             
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+
+            domain = DomainBuilder.BuildDomain(domain, Configuration);
+            Session.Resolver = () => domain.OpenSession();
+            var s = Session.Current;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

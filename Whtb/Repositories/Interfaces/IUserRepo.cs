@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Whtb.Models;
 
 namespace Whtb.Repositories
@@ -11,7 +12,13 @@ namespace Whtb.Repositories
         /// Получить список всех пользователей
         /// </summary>
         /// <returns>список всех пользователей</returns>
-        List<User> GetUsers();
+        IQueryable<UserPoco> GetUsers();
+
+        /// <summary>
+        /// Получить список всех пользователей
+        /// </summary>
+        /// <returns>список всех пользователей</returns>
+        IQueryable<UserPoco> GetFriends(Guid userId);
 
         /// <summary>
         /// Найти пользователя по логину и паролю
@@ -19,7 +26,7 @@ namespace Whtb.Repositories
         /// <param name="login">login</param>
         /// <param name="password">password</param>
         /// <returns>пользователь</returns>
-        User? GetUserByLoginAndPassword(string login, string password);
+        UserPoco? GetUserByLoginAndPassword(string login, string password);
 
         /// <summary>
         /// Найти пользователя по Id

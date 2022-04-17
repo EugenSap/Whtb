@@ -1,52 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using Whtb.Enums;
+using Xtensive.Orm;
 
 namespace Whtb.Models
 {
     /// <summary>
     /// Группа
     /// </summary>
-    public class Group
+    [HierarchyRoot]
+    public class Group : Entity
     {
-        public Group()
+        public Group(Guid id) : base(id)
         {
-            Users = new List<User>();
-            Purchases = new List<Purchase>();
-            GroupName = string.Empty;
         }
         
         /// <summary> Id </summary>
+        [Field]
+        [Key]
         public Guid Id { get; set; }
-        
+
         /// <summary> Статус группы </summary>
+        [Field]
         public GroupStatus GroupStatus { get; set; }
-        
+
         /// <summary> Дата группы </summary>
+        [Field]
         public DateTime DateTime { get; set; }
-        
+
         /// <summary> Название группы </summary>
+        [Field]
         public string GroupName { get; set; }
-        
+
         /// <summary> Полная сумма </summary>
+        [Field]
         public decimal AllSum { get; set; }
-        
+
         /// <summary> Оставшаяся сумма </summary>
+        [Field]
         public decimal RemainSum { get; set; }
-        
+
         /// <summary> Полная сумма пользователя </summary>
+        [Field]
         public decimal AllUserSum { get; set; }
-        
+
         /// <summary> Оставшаяся сумма пользователя </summary>
+        [Field]
         public decimal RemainUserSum { get; set; }
-        
+
         /// <summary> Пользователи группы </summary>
-        public List<User> Users { get; set; }
-        
+        [Field]
+        public EntitySet<User> Users { get; set; }
+
         /// <summary> Статус пользователя в группе </summary>
+        [Field]
         public UserStatusForGroup UserStatusForGroup { get; set; }
-        
+
         /// <summary> Список покупок </summary>
-        public List<Purchase> Purchases { get; set; }
+        [Field]
+        public EntitySet<Purchase> Purchases { get; set; }
     }
 }
