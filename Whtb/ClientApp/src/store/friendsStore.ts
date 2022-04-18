@@ -8,7 +8,8 @@ export interface initialStateType  {
 
 export interface userType {
     id : string,
-    nick : string
+    nick : string,
+    sum: number
 }
 const unloadedState: initialStateType = { users: [] };
 

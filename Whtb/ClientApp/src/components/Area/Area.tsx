@@ -8,11 +8,12 @@ const Column = (props: any) => {
     let items = purchases.map((p: purchaseType, index: number) => (
         <Item key={p.id} purchase={p} index={index} id={p.id}/>
     ))
-
+    
     return (
         <div key={props.id} className={s.user}>
             <div>
                 {props.column.title}
+                sum : {props.column.summ}
             </div>
             {<Droppable droppableId={props.column.id}>
                 {provided => (
@@ -48,7 +49,8 @@ const Item = (props: any) => {
 export interface columnType {
     id: string,
     title: string,
-    purchases: Array<purchaseType>
+    summ: number,
+    purchases: Array<purchaseType>,
     purchaseIds: Array<string>
 }
 

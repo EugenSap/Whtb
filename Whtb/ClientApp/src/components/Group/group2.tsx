@@ -32,6 +32,7 @@ const Group2 = (props: any) => {
             let columns: Array<columnType> = props.state.group.users.map((u : userType) => ({
                 id: u.id,
                 title: u.nick,
+                summ: u.sum,
                 purchases: props.state.group.purchases.filter((p : purchaseType) => p.user === u.id).map((p : purchaseType)  => p),
                 purchaseIds: props.state.group.purchases.filter((p : purchaseType)  => p.user === u.id).map((p : purchaseType)  => p.id),
 
@@ -39,6 +40,7 @@ const Group2 = (props: any) => {
             columns.unshift({
                 id: "00000000-0000-0000-0000-000000000000",
                 title: "Unassigned Purchases",
+                summ: props.state.group.purchases.filter((p : purchaseType) => p.user === "00000000-0000-0000-0000-000000000000").map((p : purchaseType) => p.cost).reduce((a: number, b: number) => a + b, 0),
                 purchases: props.state.group.purchases.filter((p : purchaseType) => p.user === "00000000-0000-0000-0000-000000000000").map((p : purchaseType)  => p),
                 purchaseIds: props.state.group.purchases.filter((p : purchaseType)  => p.user === "00000000-0000-0000-0000-000000000000").map((p : purchaseType)  => p.id)
             })
