@@ -3,13 +3,15 @@ import {AppThunkAction} from "./index";
 import {API} from "../api/api";
 
 export interface initialStateType {
-    userName: string | undefined
+    userName: string | undefined,
+    id: string | undefined
 }
-const unloadedState: initialStateType = { userName: undefined };
+const unloadedState: initialStateType = { userName: undefined, id: undefined };
 
 interface RequestGroups {
     type: 'REQUEST_USER';
-    userName: string | undefined
+    userName: string | undefined,
+    id: string | undefined
 }
 
 type KnownAction = RequestGroups;
@@ -22,7 +24,8 @@ export const reducer: Reducer<initialStateType> = (state: initialStateType | und
     switch (action.type) {
         case 'REQUEST_USER':
             return {
-                userName: action.userName
+                userName: action.userName,
+                id: action.id
             };
     }
     return state;
@@ -31,18 +34,21 @@ export const reducer: Reducer<initialStateType> = (state: initialStateType | und
 export const actionCreators = {
     requestUser: (): AppThunkAction<KnownAction> => async (dispatch) => {
         let userName = sessionStorage.getItem('username');
-        dispatch({ type: 'REQUEST_USER', userName: !userName ? undefined : userName })
+        let id = sessionStorage.getItem('id');
+        dispatch({ type: 'REQUEST_USER', userName: !userName ? undefined : userName, id: !id ? undefined : id })
     },
     login: (userName: string, password: string) : AppThunkAction<KnownAction> => async (dispatch) => {
         let response = await API.login(userName, password);
         sessionStorage.setItem('tokenKey', response.access_token)
         sessionStorage.setItem('username', response.username)
-        dispatch({ type: 'REQUEST_USER', userName: !userName ? undefined : userName })
+        sessionStorage.setItem('id', response.id)
+        dispatch({ type: 'REQUEST_USER', userName: !response.username ? undefined : response.username, id: !response.id ? undefined : response.id })
     },
     register: (userName: string, nick:string, password: string) : AppThunkAction<KnownAction> => async (dispatch) => {
         let response = await API.register(userName, nick, password);
         sessionStorage.setItem('tokenKey', response.access_token)
         sessionStorage.setItem('username', response.username)
-        dispatch({ type: 'REQUEST_USER', userName: !userName ? undefined : userName })
+        sessionStorage.setItem('id', response.id)
+        dispatch({ type: 'REQUEST_USER', userName: !response.username ? undefined : response.username, id: !response.id ? undefined : response.id })
     },
 };
