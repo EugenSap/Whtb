@@ -13,6 +13,10 @@ const _getUsers = () => {
     return instance(token).get(`/api/user`).then(response => response.data);
 }
 
+const _addFriend = (id: string) => {
+    let token = sessionStorage.getItem('tokenKey');
+    return instance(token).post(`/api/User/AddFriend?friendId=${id}`).then(response => response.data);
+}
 const _getGroups = () => {
     let token = sessionStorage.getItem('tokenKey')
     return instance(token).get(`/api/group`).then(response => response.data);
@@ -67,5 +71,6 @@ export const API = {
     assignPurchase: _assignPurchase,
     login: _login,
     register: register,
-    setGroupDate: _setGroupDate
+    setGroupDate: _setGroupDate,
+    addFriend: _addFriend
 }

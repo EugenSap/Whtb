@@ -43,5 +43,13 @@ namespace Whtb.Repositories
         /// <param name="password">password</param>
         /// <returns>успех/неудача</returns>
         bool RegisterUser(string login, string nick, string password);
+
+        /// <summary>
+        /// Добавить друга
+        /// </summary>
+        /// <param name="userId">userId</param>
+        /// <param name="friendId">friendId</param>
+        /// <returns>успех/неудача</returns>
+        bool AddFriend(Guid userId, Guid friendId);
     }
 }

@@ -38,6 +38,11 @@ export const actionCreators = {
     requestUsers: (): AppThunkAction<KnownAction> => async (dispatch) => {
         let response = await API.getUsers();
         dispatch({ type: 'REQUEST_USERS', users: response })
+    },
+    addFriend: (id:string): AppThunkAction<KnownAction> => async (dispatch) => {
+        await API.addFriend(id);
+        let response = await API.getUsers();
+        dispatch({ type: 'REQUEST_USERS', users: response })
     }
 };
 

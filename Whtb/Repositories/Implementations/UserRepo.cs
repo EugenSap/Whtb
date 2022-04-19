@@ -12,6 +12,27 @@ namespace Whtb.Repositories
     /// </summary>
     public class UserRepo : IUserRepo
     {
+        public bool AddFriend(Guid userId, Guid friendId)
+        {
+            try
+            {
+                var user = Query.All<User>().Where(x => x.Id == userId).Single();
+                if (user.Friends.Any(x => x.Id == friendId))
+                {
+                    return true;
+                }
+                var friend = Query.All<User>().Where(x => x.Id == friendId).Single();
+                friend.Friends.Add(user);
+                user.Friends.Add(friend);
+                Session.Current.SaveChanges();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
         /// <inheritdoc/>
         public IQueryable<UserPoco> GetFriends(Guid userId)
         {
