@@ -9,8 +9,10 @@ import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
 import { compose } from "redux";
 import Modal from "../modal/Modal";
 import NewGroup from "./newGroup";
+import { IGroupType } from './../../models/interfaces';
+import { FormSubmitHandler } from "redux-form";
 
-const Group = (props: GroupsReducerStore.groupType) => {
+const Group = (props: IGroupType) => {
     return (
         <Link to={`group/${props.id}`}>
         <div key={props.id} className={s.group}>
@@ -24,7 +26,14 @@ const Group = (props: GroupsReducerStore.groupType) => {
         </Link>
     )
 }
-const Groups = (props: any) => {
+interface GroupsProps {
+    requestGroups: () => {},
+    createGroup: (arg0: string, arg1: string) => {},
+    state: {
+        groups: Array<IGroupType>
+    },
+}
+const Groups = (props: GroupsProps) => {
     const [modalActive, setModalActive] = useState(false);
     useEffect(() => {
         props.requestGroups();
@@ -32,8 +41,9 @@ const Groups = (props: any) => {
     }, [])
     let groups = null;
     if (props.state.groups && props.state.groups.length > 0) {
-        groups = props.state.groups.map((g: GroupsReducerStore.groupType) => Group(g))
+        groups = props.state.groups.map((g: IGroupType) => Group(g))
     }
+
     let onSubmit = (formData: any) =>
     {
         setModalActive(false)
@@ -41,6 +51,7 @@ const Groups = (props: any) => {
         props.createGroup(formData.name,date);
         props.requestGroups();
     }
+
     return (
         <div className={s.friends}>
             <button onClick={() =>setModalActive(true)}>Create Group</button>

@@ -9,6 +9,7 @@ import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
 import {compose} from "redux";
 import NewFriend from "../NewFriend/NewFriend";
 import Modal from './../modal/Modal';
+import { IUserType } from "../../models/interfaces";
 
 const Friend = (id : string, name: string, picture : any) => {
     return (
@@ -33,7 +34,7 @@ const Friends = (props: any) =>
     let users = null;
     if (props.state.users && props.state.users.length > 0)
     {
-        users = props.state.users.map((u : FriendsReducerStore.userType) => Friend(u.id, u.nick, null))
+        users = props.state.users.map((u : IUserType) => Friend(u.id, u.nick, null))
     }
     let onSubmit = (formData: any) =>
     {

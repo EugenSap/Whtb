@@ -6,8 +6,13 @@ import {ApplicationState} from "../../store";
 import * as LoginStore from "../../store/loginStore";
 import {useHistory} from "react-router-dom";
 
-let Login = (props : any) => {
+interface LoginProps {
+    login: (arg0: string, arg1: string) => {},
+    register: (arg0: string, arg1: string, arg3: string) => {}
+}
+let Login = (props : LoginProps) => {
     let history = useHistory();
+
     let onSubmit = (FormData : any) => {
         if (!FormData.Register)
         {

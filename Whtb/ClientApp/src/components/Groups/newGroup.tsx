@@ -2,8 +2,9 @@ import * as React from "react";
 import {Field, reduxForm} from "redux-form";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { IWithHandleSubmit } from "../../models/interfaces";
 
-const NewGroup = (props : any) => {
+const NewGroup = (props : IWithHandleSubmit) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>

@@ -1,21 +1,17 @@
 import {Action, Reducer} from "redux";
 import {AppThunkAction} from "./index";
 import {API} from "../api/api";
+import { IUserType } from "../models/interfaces";
 
 export interface initialStateType  {
-    users: Array<userType>,
+    users: Array<IUserType>,
 }
 
-export interface userType {
-    id : string,
-    nick : string,
-    sum: number
-}
 const unloadedState: initialStateType = { users: [] };
 
 interface RequestUsers {
     type: 'REQUEST_USERS';
-    users: Array<userType>
+    users: Array<IUserType>
 }
 
 type KnownAction = RequestUsers;

@@ -1,25 +1,18 @@
 import {Action, Reducer} from "redux";
 import {AppThunkAction} from "./index";
 import {API} from "../api/api";
+import { IGroupType } from "../models/interfaces";
 
 export interface initialStateType  {
-    groups: Array<groupType>,
+    groups: Array<IGroupType>,
 }
 
-export interface groupType {
-    id : string,
-    groupName : string,
-    remainSum : number,
-    allSum : number,
-    dateTime:string
-    groupStatus: number,
-    userStatusForGroup:number
-}
+
 const unloadedState: initialStateType = { groups: [] };
 
 interface RequestGroups {
     type: 'REQUEST_GROUPS';
-    groups: Array<groupType>
+    groups: Array<IGroupType>
 }
 
 type KnownAction = RequestGroups;

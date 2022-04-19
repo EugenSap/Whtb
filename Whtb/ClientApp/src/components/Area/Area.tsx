@@ -1,11 +1,15 @@
-import {purchaseType} from "../../store/groupStore";
 import s from "../Group/group.module.css";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import * as React from "react";
+import { IColumnType, IPurchasesArrayType, IPurchaseType, IStateType, IWithId, IWithIndex, IWithPurchase } from "../../models/interfaces";
 
-const Column = (props: any) => {
+interface IColumn extends IPurchasesArrayType, IWithId{
+    column: IColumnType
+}
+
+const Column = (props: IColumn) => {
     let purchases = props.purchases && props.purchases.length > 0 ? props.purchases : []
-    let items = purchases.map((p: purchaseType, index: number) => (
+    let items = purchases.map((p: IPurchaseType, index: number) => (
         <Item key={p.id} purchase={p} index={index} id={p.id}/>
     ))
     
@@ -27,7 +31,9 @@ const Column = (props: any) => {
     )
 }
 
-const Item = (props: any) => {
+interface IItem extends IWithId, IWithPurchase, IWithIndex{}
+
+const Item = (props: IItem) => {
     let id = props.purchase.id;
     let index = props.index;
     return (
@@ -46,21 +52,13 @@ const Item = (props: any) => {
     )
 }
 
-export interface columnType {
-    id: string,
-    title: string,
-    summ: number,
-    purchases: Array<purchaseType>,
-    purchaseIds: Array<string>
+interface IArea {
+    state: IStateType,
+    setState: (arg0: IStateType) => void,
+    assignPurchase: (arg0: string, arg1: string) => void
 }
 
-export interface stateType {
-    purchases: Array<purchaseType>
-    columns: Array<columnType>
-    columnOrder: Array<string>
-}
-
-const Area = (props: any) => {
+const Area = (props: IArea) => {
     let state = props.state;
 
     if (!state) {
@@ -81,8 +79,8 @@ const Area = (props: any) => {
             return;
         }
 
-        const start = state.columns.filter((x: columnType) => x.id === source.droppableId)[0];
-        const finish = state.columns.filter((x: columnType) => x.id === destination.droppableId)[0];
+        const start = state.columns.filter((x: IColumnType) => x.id === source.droppableId)[0];
+        const finish = state.columns.filter((x: IColumnType) => x.id === destination.droppableId)[0];
 
         if (start === finish) {
             const newTaskIds = start.purchaseIds;
@@ -94,7 +92,7 @@ const Area = (props: any) => {
             };
             const newState = {
                 ...state,
-                columns: state.columns.filter((x : columnType) => x.id !== newColumn.id)
+                columns: state.columns.filter((x : IColumnType) => x.id !== newColumn.id)
             };
             newState.columns.push(newColumn)
             props.setState(newState);
@@ -118,7 +116,7 @@ const Area = (props: any) => {
 
         const newState = {
             ...state,
-            columns: state.columns.filter((x : columnType) => x.id !== newStart.id && x.id !== newFinish.id)
+            columns: state.columns.filter((x : IColumnType) => x.id !== newStart.id && x.id !== newFinish.id)
         };
         newState.columns.push(newStart)
         newState.columns.push(newFinish)
@@ -130,10 +128,10 @@ const Area = (props: any) => {
             <DragDropContext onDragEnd={onDragEnd}>
                 <div>
                     {state.columnOrder.map((columnId: string) => {
-                        const column = state.columns.filter((x: columnType) => x.id === columnId)[0];
+                        const column = state.columns.filter((x: IColumnType) => x.id === columnId)[0];
                         const purchases = column.purchaseIds.map(
-                            (purchaseId: string) => state.purchases.filter((x: purchaseType) => x.id === purchaseId)[0]);
-                        return <Column key={column.id} column={column} purchases={purchases}/>;
+                            (purchaseId: string) => state.purchases.filter((x: IPurchaseType) => x.id === purchaseId)[0]);
+                        return <Column key={column.id} id ={column.id} column={column} purchases={purchases}/>;
                     })}
                 </div>
             </DragDropContext>

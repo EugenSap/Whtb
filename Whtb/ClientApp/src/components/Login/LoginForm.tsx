@@ -4,7 +4,7 @@ import * as React from "react";
 
 const Login = (props : any) => {
     const [register, setRegister] = useState(false);
-    const ChnageRegister = (e : any) => {
+    const ChangeRegister = (e : any) => {
         setRegister(e.target.checked)
     }
     return (
@@ -32,7 +32,7 @@ const Login = (props : any) => {
                     <Field name="Register"
                            component="input"
                            type="checkbox"
-                           onChange={ChnageRegister}/>
+                           onChange={ChangeRegister}/>
                 </div>
             </div>
             <button type="submit">Submit</button>

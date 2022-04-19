@@ -5,17 +5,26 @@ import {ApplicationState} from "../../store";
 import * as GroupReducerStore from "../../store/groupStore";
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {groupType, purchaseType} from "../../store/groupStore";
-import {userType} from "../../store/friendsStore";
 import Modal from "../modal/Modal";
-import Area, {columnType, stateType} from "../Area/Area";
+import Area from "../Area/Area";
 import NewPurchase from "../NewPurchase/NewPurchase";
 import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
 import {compose} from "redux";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
+import { IGroupType, IUserType, IPurchaseType, IColumnType, IStateType } from '../../models/interfaces';
 
-const Group2 = (props: any) => {
+interface IGroup {
+    requestGroup: (arg0: string, arg1: string) => {},
+    state: {
+        group: IGroupType
+    },
+    addPurchase: (arg0: string, arg1: number, arg2: string, arg3: string) => {},
+    assignPurchase: (arg0: string, arg1: string, arg2: string) => void,
+    setGroupDate:  (arg0: string, arg1: string) => {}
+}
+
+const Group = (props: IGroup) => {
     const [modalActive, setModalActive] = useState(false);
     const {id} = useParams<{id: string}>();
 
@@ -25,28 +34,28 @@ const Group2 = (props: any) => {
     }, [])
 
     useEffect(() => {
-        const group: groupType | undefined = props.state.group;
+        const group: IGroupType | undefined = props.state.group;
         if (!group) {
             ;
         } else {
-            let columns: Array<columnType> = props.state.group.users.map((u : userType) => ({
+            let columns: Array<IColumnType> = props.state.group.users.map((u : IUserType) => ({
                 id: u.id,
                 title: u.nick,
                 summ: u.sum,
-                purchases: props.state.group.purchases.filter((p : purchaseType) => p.user === u.id).map((p : purchaseType)  => p),
-                purchaseIds: props.state.group.purchases.filter((p : purchaseType)  => p.user === u.id).map((p : purchaseType)  => p.id),
+                purchases: props.state.group.purchases.filter((p : IPurchaseType) => p.user === u.id).map((p : IPurchaseType)  => p),
+                purchaseIds: props.state.group.purchases.filter((p : IPurchaseType)  => p.user === u.id).map((p : IPurchaseType)  => p.id),
 
             }));
             columns.unshift({
                 id: "00000000-0000-0000-0000-000000000000",
                 title: "Unassigned Purchases",
-                summ: props.state.group.purchases.filter((p : purchaseType) => p.user === "00000000-0000-0000-0000-000000000000").map((p : purchaseType) => p.cost).reduce((a: number, b: number) => a + b, 0),
-                purchases: props.state.group.purchases.filter((p : purchaseType) => p.user === "00000000-0000-0000-0000-000000000000").map((p : purchaseType)  => p),
-                purchaseIds: props.state.group.purchases.filter((p : purchaseType)  => p.user === "00000000-0000-0000-0000-000000000000").map((p : purchaseType)  => p.id)
+                summ: props.state.group.purchases.filter((p : IPurchaseType) => p.user === "00000000-0000-0000-0000-000000000000").map((p : IPurchaseType) => p.cost).reduce((a: number, b: number) => a + b, 0),
+                purchases: props.state.group.purchases.filter((p : IPurchaseType) => p.user === "00000000-0000-0000-0000-000000000000").map((p : IPurchaseType)  => p),
+                purchaseIds: props.state.group.purchases.filter((p : IPurchaseType)  => p.user === "00000000-0000-0000-0000-000000000000").map((p : IPurchaseType)  => p.id)
             })
             let columnOrder: Array<string> = group.users.map(u => u.id);
             columnOrder.unshift("00000000-0000-0000-0000-000000000000");
-            let st: stateType = {
+            let st: IStateType = {
                 purchases: props.state.group.purchases,
                 columns: columns,
                 columnOrder: columnOrder
@@ -57,19 +66,12 @@ const Group2 = (props: any) => {
         }
     }, [props.state.group])
 
-    let initialState: stateType = {
+    let initialState: IStateType = {
         purchases: [],
         columns: [],
         columnOrder: []
     };
-    let [state, setState1] = useState(initialState);
-    let setState = (st : stateType) => {
-        setState1(st);
-    }
-    interface purchaseData {
-        name: string,
-        cost: number
-    }
+    let [state, setState] = useState(initialState);
     let onSubmit = (formData: any) =>
     {
         setModalActive(false)
@@ -80,6 +82,7 @@ const Group2 = (props: any) => {
     {
         props.assignPurchase(id, userId, purchaseId)
     }
+
     const [startDate, setStartDate] = useState(new Date());
 
     const setDate = (date: Date) =>
@@ -109,4 +112,4 @@ let mapStateToProps = (state : ApplicationState) => {
 }
 export default compose<React.ComponentType>(
     connect(mapStateToProps, GroupReducerStore.actionCreators),
-    WithAuthRedirect)(Group2 as any);
+    WithAuthRedirect)(Group as any);

@@ -5,7 +5,7 @@ import ProfileInfoSmall from "./components/profileInfoSmall/profileInfoSmall";
 import {Route} from "react-router";
 import Friends from "./components/Friends/friends";
 import Groups from "./components/Groups/groups";
-import Group2 from "./components/Group/group2";
+import Group2 from "./components/Group/group";
 import Login from "./components/Login/Login";
 import Account from './components/Account/account';
 
