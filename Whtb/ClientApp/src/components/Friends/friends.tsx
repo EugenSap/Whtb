@@ -10,12 +10,13 @@ import {compose} from "redux";
 import NewFriend from "../NewFriend/NewFriend";
 import Modal from './../modal/Modal';
 import { IUserType } from "../../models/interfaces";
+import {useHistory} from "react-router-dom";
 
-const Friend = (id : string, name: string, picture : any) => {
+const Friend = (id : string, name: string, picture : any, onClick : any) => {
     return (
         <div key={id}>
             <div>
-                <img className={s.picture} src={ picture ? picture : defaultAvatar} alt="AVATAR"/>
+                <img className={s.picture} src={ picture ? picture : defaultAvatar} alt="AVATAR" onClick={() => onClick(id)}/>
             </div>
             <div>
                 {name}
@@ -25,16 +26,19 @@ const Friend = (id : string, name: string, picture : any) => {
 }
 const Friends = (props: any) =>
 {
+    let history = useHistory();
     const [modalActive, setModalActive] = useState(false);
     useEffect(() => {
         props.requestUsers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    
+    let onClick = (id: any) => {
+        history.push(`/account/${id}`)
+    }
     let users = null;
     if (props.state.users && props.state.users.length > 0)
     {
-        users = props.state.users.map((u : IUserType) => Friend(u.id, u.nick, null))
+        users = props.state.users.map((u : IUserType) => Friend(u.id, u.nick, null, onClick))
     }
     let onSubmit = (formData: any) =>
     {

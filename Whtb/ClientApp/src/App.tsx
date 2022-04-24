@@ -13,7 +13,7 @@ export default () => (
     <div className="app-wrapper">
         <Navbar/>
         <ProfileInfoSmall/>
-        <Route path='/account' component={Account} />
+        <Route path='/account/:id?' component={Account} />
         <Route path='/login' component={Login} />
         <Route path='/friends' component={Friends} />
         <Route path='/groups' component={Groups} />

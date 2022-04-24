@@ -25,6 +25,24 @@ namespace Whtb.Controllers
         }
 
         /// <summary>
+        /// Получить инфо Пользователя
+        /// </summary>
+        /// <param name="userId">Id пользователя</param>
+        /// <returns>Инфо</returns>
+        [HttpGet("GetUserInfo")]
+        [Authorize]
+        public async Task<ActionResult<UserPoco>> GetUserInfo(Guid userId)
+        {
+            var id = Guid.Parse(User.Claims.Where(x => x.Type.Equals("Id")).First().Value);
+            _repo ??= IoC.GetInstance<IUserRepo>();
+            var user = id == userId 
+                ? (UserPoco)_repo.GetUserById(userId) 
+                : _repo.GetFriends(id).Where(x => x.Id == userId).SingleOrDefault(); // можем получить инфо только по друзъям
+
+            return new ObjectResult(user);
+        }
+
+        /// <summary>
         /// Добавить друга
         /// </summary>
         /// <param name="friendId">friendId</param>

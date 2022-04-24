@@ -1,6 +1,6 @@
-import * as loginStore from "../store/loginStore";
+import * as userStore from "../store/userStore";
 import { RouteComponentProps } from 'react-router';
 
 export type AccountProps =
-loginStore.initialStateType &
+userStore.initialStateType &
 RouteComponentProps<{}>;

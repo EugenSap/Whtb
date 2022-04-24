@@ -58,6 +58,11 @@ const _login = (login: string, password: string) => {
     return instance(token).post(`/api/Auth/Login?username=${login}&password=${password}`).then(response => response.data);
 }
 
+const _requestUserInfo = (id: string) => {
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).get(`/api/User/GetUserInfo?userId=${id}`).then(response => response.data);
+}
+
 const register = (login: string, nick: string, password: string) => {
     let token = sessionStorage.getItem('tokenKey')
     return instance(token).post(`/api/Auth/Register?username=${login}&nick=${nick}&password=${password}`).then(response => response.data);
@@ -72,5 +77,6 @@ export const API = {
     login: _login,
     register: register,
     setGroupDate: _setGroupDate,
-    addFriend: _addFriend
+    addFriend: _addFriend,
+    requestUserInfo: _requestUserInfo
 }
