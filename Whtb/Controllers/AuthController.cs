@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
+using Whtb.Extensions;
 
 namespace Whtb.Controllers
 {
@@ -35,7 +36,7 @@ namespace Whtb.Controllers
         [HttpPost("Register")]
         public IActionResult Register(string username, string nick, string password)
         {
-            if (!_repo.RegisterUser(username,nick,password))
+            if (!_repo.RegisterUser(username,nick, password.GetHash()))
             {
                 return BadRequest();
             }
@@ -44,7 +45,7 @@ namespace Whtb.Controllers
 
         private IActionResult Login(string username, string password)
         {
-            var identity = GetIdentity(username, password);
+            var identity = GetIdentity(username, password.GetHash());
             if (identity == null)
             {
                 return BadRequest();
