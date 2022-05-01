@@ -124,7 +124,7 @@ namespace Whtb.Controllers
         private async Task<ActionResult<IQueryable<object>>> GetGroupData(Group group)
         {
             var users = group.Users.Select(x => new {x.Id, x.Nick, sum = group.Purchases.Where(p => p.User == x).Sum(p => p.Cost) });
-            var purchases = group.Purchases.Select(x => new {x.Id, x.Name, x.Cost, User = x.User != null ? x.User.Id : Guid.Empty});
+            var purchases = group.Purchases.Select(x => new { x.Id, x.Name, x.Cost, x.Completed, User = x.User != null ? (UserPoco)x.User : new UserPoco() { Id = Guid.Empty } });
             var o = new ObjectResult( new
             {
                 group.Id,

@@ -6,7 +6,8 @@ export interface IUserType extends IWithId{
 export interface IPurchaseType extends IWithId{
     name : string,
     cost : number
-    user : string
+    user : IUserType | undefined,
+    completed: boolean
 }
 
 export interface IGroupType extends IPurchasesArrayType, IWithId{

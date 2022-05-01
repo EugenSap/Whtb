@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import Modal from "../modal/Modal";
 import Area from "../Area/Area";
-import NewPurchase from "../NewPurchase/NewPurchase";
+import NewPurchase from "../PurchaseModal/NewPurchase";
 import WithAuthRedirect from "../WithAuthRedirect/WithAuthRedirect";
 import {compose} from "redux";
 import DatePicker from "react-datepicker"
@@ -33,6 +33,9 @@ const Group = (props: IGroup) => {
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    let updateData = () => {
+        props.requestGroup(id, id);
+    }
     useEffect(() => {
         const group: IGroupType | undefined = props.state.group;
         if (!group) {
@@ -42,16 +45,16 @@ const Group = (props: IGroup) => {
                 id: u.id,
                 title: u.nick,
                 summ: u.sum,
-                purchases: props.state.group.purchases.filter((p : IPurchaseType) => p.user === u.id).map((p : IPurchaseType)  => p),
-                purchaseIds: props.state.group.purchases.filter((p : IPurchaseType)  => p.user === u.id).map((p : IPurchaseType)  => p.id),
+                purchases: props.state.group.purchases.filter((p : IPurchaseType) => p.user?.id === u.id).map((p : IPurchaseType)  => p),
+                purchaseIds: props.state.group.purchases.filter((p : IPurchaseType)  => p.user?.id === u.id).map((p : IPurchaseType)  => p.id),
 
             }));
             columns.unshift({
                 id: "00000000-0000-0000-0000-000000000000",
                 title: "Unassigned Purchases",
-                summ: props.state.group.purchases.filter((p : IPurchaseType) => p.user === "00000000-0000-0000-0000-000000000000").map((p : IPurchaseType) => p.cost).reduce((a: number, b: number) => a + b, 0),
-                purchases: props.state.group.purchases.filter((p : IPurchaseType) => p.user === "00000000-0000-0000-0000-000000000000").map((p : IPurchaseType)  => p),
-                purchaseIds: props.state.group.purchases.filter((p : IPurchaseType)  => p.user === "00000000-0000-0000-0000-000000000000").map((p : IPurchaseType)  => p.id)
+                summ: props.state.group.purchases.filter((p : IPurchaseType) => p.user?.id === "00000000-0000-0000-0000-000000000000").map((p : IPurchaseType) => p.cost).reduce((a: number, b: number) => a + b, 0),
+                purchases: props.state.group.purchases.filter((p : IPurchaseType) => p.user?.id === "00000000-0000-0000-0000-000000000000").map((p : IPurchaseType)  => p),
+                purchaseIds: props.state.group.purchases.filter((p : IPurchaseType)  => p.user?.id === "00000000-0000-0000-0000-000000000000").map((p : IPurchaseType)  => p.id)
             })
             let columnOrder: Array<string> = group.users.map(u => u.id);
             columnOrder.unshift("00000000-0000-0000-0000-000000000000");
@@ -97,7 +100,7 @@ const Group = (props: IGroup) => {
             <Modal active={modalActive} setActive={setModalActive}>
                 <NewPurchase onSubmit = {onSubmit}/>
             </Modal>
-            <Area setState={setState} state={state} assignPurchase={assignPurchase}/>
+            <Area setState={setState} state={state} assignPurchase={assignPurchase} updateData={updateData} />
             <button onClick={() => setModalActive(true)}>New purchase</button>
             
         </div>

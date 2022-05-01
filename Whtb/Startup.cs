@@ -38,7 +38,8 @@ namespace Whtb
             
             IoC.Register<IUserRepo, UserRepo>();
             IoC.Register<IGroupRepo, GroupRepo>();
-            
+            IoC.Register<IPurchaseRepo, PurchaseRepo>();
+
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             var xmlPath = Path.Combine(basePath, "Whtb.xml");
             services.AddSwaggerGen(c =>

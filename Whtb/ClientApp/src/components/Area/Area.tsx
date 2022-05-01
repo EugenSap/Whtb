@@ -2,15 +2,20 @@ import s from "../Group/group.module.css";
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
 import * as React from "react";
 import { IColumnType, IPurchasesArrayType, IPurchaseType, IStateType, IWithId, IWithIndex, IWithPurchase } from "../../models/interfaces";
+import Purchase from './../Purchase/purchase';
 
 interface IColumn extends IPurchasesArrayType, IWithId{
-    column: IColumnType
+    column: IColumnType,
+    updateData: () => {}
 }
 
 const Column = (props: IColumn) => {
+    let updateData = () => {
+        props.updateData();
+    }
     let purchases = props.purchases && props.purchases.length > 0 ? props.purchases : []
     let items = purchases.map((p: IPurchaseType, index: number) => (
-        <Item key={p.id} purchase={p} index={index} id={p.id}/>
+        <Purchase key={p.id} purchase={p} index={index} id={p.id} UpdateData = {updateData}/>
     ))
     
     return (
@@ -31,31 +36,11 @@ const Column = (props: IColumn) => {
     )
 }
 
-interface IItem extends IWithId, IWithPurchase, IWithIndex{}
-
-const Item = (props: IItem) => {
-    let id = props.purchase.id;
-    let index = props.index;
-    return (
-        <div className={s.purchase}>
-            <Draggable draggableId={id} index={index}>
-                {provided => (
-                    <div
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        ref={provided.innerRef}>
-                        {props.purchase.name}
-                    </div>)
-                }
-            </Draggable>
-        </div>
-    )
-}
-
 interface IArea {
     state: IStateType,
     setState: (arg0: IStateType) => void,
-    assignPurchase: (arg0: string, arg1: string) => void
+    assignPurchase: (arg0: string, arg1: string) => void,
+    updateData: () => {}
 }
 
 const Area = (props: IArea) => {
@@ -131,7 +116,7 @@ const Area = (props: IArea) => {
                         const column = state.columns.filter((x: IColumnType) => x.id === columnId)[0];
                         const purchases = column.purchaseIds.map(
                             (purchaseId: string) => state.purchases.filter((x: IPurchaseType) => x.id === purchaseId)[0]);
-                        return <Column key={column.id} id ={column.id} column={column} purchases={purchases}/>;
+                        return <Column key={column.id} id ={column.id} column={column} purchases={purchases} updateData ={props.updateData} />;
                     })}
                 </div>
             </DragDropContext>

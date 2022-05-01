@@ -1,4 +1,9 @@
 import axios from "axios";
+import { IPurchaseType } from "../models/interfaces";
+
+const config = {
+    headers: {'Content-Type': 'application/json'}
+}
 
 const instance = (token : string | null) => axios.create(
     {
@@ -67,6 +72,21 @@ const register = (login: string, nick: string, password: string) => {
     let token = sessionStorage.getItem('tokenKey')
     return instance(token).post(`/api/Auth/Register?username=${login}&nick=${nick}&password=${password}`).then(response => response.data);
 }
+
+const _getPurchase = (purchaseId : string) => {
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).get(`/api/purchase?guid=${purchaseId}`).then(response =>
+    {
+        return response.data
+    }
+    );
+}
+
+const _postPurchase = (purchase: IPurchaseType) => {
+    let token = sessionStorage.getItem('tokenKey')
+    return instance(token).post(`/api/purchase`, purchase, config).then(response => response.data);
+}
+
 export const API = {
     getUsers: _getUsers,
     getGroups: _getGroups,
@@ -78,5 +98,7 @@ export const API = {
     register: register,
     setGroupDate: _setGroupDate,
     addFriend: _addFriend,
-    requestUserInfo: _requestUserInfo
+    requestUserInfo: _requestUserInfo,
+    getPurchase: _getPurchase,
+    postPurchase: _postPurchase
 }

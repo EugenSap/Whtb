@@ -1,0 +1,39 @@
+.group{
+    grid-area: main;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 70px 1fr;
+    grid-template-areas:
+    "header header"
+    "purchases users"
+}
+.group2{
+    grid-area: main;
+}
+.head{
+    grid-area: header;
+}
+.purchases{
+    grid-area: purchases;
+}
+
+.purchase{
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    padding: 8px;
+    margin-bottom: 8px;
+    margin-left: 8px;
+    margin-right: 8px;
+    background-color: white;
+}
+
+.users{
+    grid-area: users;
+}
+.user{
+    text-align: center;
+    margin: 8px;
+    border: 1px solid lightgrey;
+    border-radius: 2px;
+    min-height: 100px;
+}
