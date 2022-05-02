@@ -6,7 +6,7 @@ import Purchase from './../Purchase/purchase';
 
 interface IColumn extends IPurchasesArrayType, IWithId{
     column: IColumnType,
-    updateData: () => {}
+    updateData: () => void
 }
 
 const Column = (props: IColumn) => {
@@ -40,7 +40,7 @@ interface IArea {
     state: IStateType,
     setState: (arg0: IStateType) => void,
     assignPurchase: (arg0: string, arg1: string) => void,
-    updateData: () => {}
+    updateData: () => void
 }
 
 const Area = (props: IArea) => {

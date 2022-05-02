@@ -52,7 +52,7 @@ namespace Whtb.Controllers
                 return BadRequest();
             }
             _repo.UpdatePurchase(purchase);
-            return Ok();
+            return Ok(purchase);
         }
     }
 }

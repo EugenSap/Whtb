@@ -34,7 +34,8 @@ export const actionCreators = {
         let response = await API.getPurchase(purchaseId);
         dispatch({ type: 'REQUEST_PURCHASE', purchase: response })
     },
-    postPurchase: (purchase : IPurchaseType): AppThunkAction<KnownAction> => async (dispatch) => {
+    postPurchase: (purchase : IPurchaseType, updateData: () => {}): AppThunkAction<KnownAction> => async (dispatch) => {
         await API.postPurchase(purchase);
+        updateData();
     },
 };

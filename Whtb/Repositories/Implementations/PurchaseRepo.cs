@@ -1,6 +1,7 @@
 ﻿using System;
 using Whtb.Models;
 using Xtensive.Orm;
+using Xtensive.Orm.BulkOperations;
 
 namespace Whtb.Repositories
 {

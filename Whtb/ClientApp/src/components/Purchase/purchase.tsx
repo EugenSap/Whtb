@@ -10,12 +10,15 @@ import { connect } from 'react-redux'
 import {ApplicationState} from "../../store";
 
 interface IItem extends IWithId, IWithPurchase, IWithIndex {
-    postPurchase: (purchase: IPurchaseType) => {},
-    UpdateData: () => {},
-    requestPurchase: (id: string) => {}
+    UpdateData: () => void,
 }
 
-const Purchase = (props: IItem) => {
+interface IFullItem extends IItem {
+    requestPurchase: (id: string) => {},
+    postPurchase: (purchase: IPurchaseType, UpdateData: () => void) => {},
+}
+
+const Purchase = (props: IFullItem) => {
     const [modalActive, setModalActive] = useState(false);
 
     let onclick = () => {
@@ -33,8 +36,7 @@ const Purchase = (props: IItem) => {
             user: undefined,
             completed: formData.completed
         }
-        props.postPurchase(purchase)
-        props.UpdateData();
+        props.postPurchase(purchase, props.UpdateData)
     }
 
     let id = props.purchase.id;
@@ -69,8 +71,13 @@ const mapDispatchToProps = (dispatch : any) => {
     }
   }
 
+  const mapStateToProps = (state : ApplicationState, ownProps : IItem) => ({
+    state: state.group,
+    ownProps: ownProps
+  })
+
 export default connect(
-    (state: ApplicationState) => ({ state: state.group }),
-    PurchaseReducerStore.actionCreators 
+    mapStateToProps,
+    PurchaseReducerStore.actionCreators
 )(Purchase as any);
 //export default Purchase;
