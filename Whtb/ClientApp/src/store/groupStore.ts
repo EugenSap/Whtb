@@ -33,13 +33,13 @@ export const reducer: Reducer<initialStateType> = (state: initialStateType | und
 };
 
 export const actionCreators = {
-    requestGroup: (userId : string, groupId : string): AppThunkAction<KnownAction> => async (dispatch) => {
-        let response = await API.getGroup(userId, groupId);
+    requestGroup: (groupId : string): AppThunkAction<KnownAction> => async (dispatch) => {
+        let response = await API.getGroup(groupId);
         dispatch({ type: 'REQUEST_GROUP', group: response })
     },
 
-    addPurchase: (purchaseName: string, purchaseCost: number, groupId: string, userId: string): AppThunkAction<KnownAction> => async (dispatch) => {
-        let response = await API.addPurchase(purchaseName, purchaseCost, groupId, userId);
+    addPurchase: (purchaseName: string, purchaseCost: number, groupId: string): AppThunkAction<KnownAction> => async (dispatch) => {
+        let response = await API.addPurchase(purchaseName, purchaseCost, groupId);
         dispatch({ type: 'REQUEST_GROUP', group: response })
     },
 
@@ -52,5 +52,10 @@ export const actionCreators = {
         let response = await API.setGroupDate(groupId, date);
         dispatch({ type: 'REQUEST_GROUP', group: response })
         },
+
+    addNewUser:  (userId: string, gropuId: string): AppThunkAction<KnownAction> => async (dispatch) => {
+            let response = await API.addUserToGroup(userId, gropuId);
+            dispatch({ type: 'REQUEST_GROUP', group: response })
+            },
 };
 

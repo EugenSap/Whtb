@@ -38,13 +38,14 @@ namespace Whtb.Controllers
         /// <summary>
         /// Get group
         /// </summary>
-        /// <param name="userId">userId</param>
         /// <param name="groupId">groupId</param>
         /// <returns>group data</returns>
         [HttpGet("GetGroupById")]
-        public async Task<ActionResult<IQueryable<object>>> Get(Guid userId, Guid groupId)
+        [Authorize]
+        public async Task<ActionResult<IQueryable<object>>> Get(Guid groupId)
         {
-            var group = _repo.GetGroupById(userId, groupId);
+            var userId = User.Claims.Where(x => x.Type.Equals("Id")).First().Value;
+            var group = _repo.GetGroupById(Guid.Parse(userId), groupId);
             var o = await GetGroupData(group);
             return o;
         }
@@ -55,11 +56,11 @@ namespace Whtb.Controllers
         /// <param name="purchaseName">purchaseName</param>
         /// <param name="purchaseCost">purchaseCost</param>
         /// <param name="groupId">groupId</param>
-        /// <param name="userId">userId</param>
         /// <returns>group</returns>
         [HttpPost("AddPurchase")]
-        public async Task<ActionResult<IQueryable<object>>> AddPurchase(string purchaseName, decimal purchaseCost, Guid groupId, Guid userId)
+        public async Task<ActionResult<IQueryable<object>>> AddPurchase(string purchaseName, decimal purchaseCost, Guid groupId)
         {
+            var userId = Guid.Parse(User.Claims.Where(x => x.Type.Equals("Id")).First().Value);
             var group = _repo.GetGroupById(userId, groupId);
             var purchase = new Purchase(Guid.NewGuid())
             {
@@ -71,7 +72,23 @@ namespace Whtb.Controllers
             var o = await GetGroupData(group);
             return o;
         }
-        
+
+        /// <summary>
+        /// Добавить пользователя в группу
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="groupId"></param>
+        /// <returns></returns>
+        [HttpPost("AddUserToGroup")]
+        [Authorize]
+        public async Task<ActionResult<IQueryable<object>>> AddUser(Guid userId, Guid groupId)
+        {
+            var id = Guid.Parse(User.Claims.Where(x => x.Type.Equals("Id")).First().Value);
+            var group = _repo.GetGroupById(id, groupId);
+            _repo.AddUser(group, userId);
+            return await GetGroupData(group);
+        }
+
         /// <summary>
         /// Assign purchase
         /// </summary>
@@ -80,14 +97,15 @@ namespace Whtb.Controllers
         /// <param name="purchaseId">purchaseId</param>
         /// <returns>group</returns>
         [HttpPost("AssignPurchase")]
+        [Authorize]
         public async Task<ActionResult<IQueryable<object>>> AssignPurchase(Guid groupId, Guid userId, Guid purchaseId)
         {
-            var group = _repo.GetGroupById(userId, groupId);
+            var id = Guid.Parse(User.Claims.Where(x => x.Type.Equals("Id")).First().Value);
+            var group = _repo.GetGroupById(userId, groupId) ?? _repo.GetGroupById(id, groupId);
             var user = group.Users.SingleOrDefault(x => x.Id == userId); 
             group.Purchases.Single(x => x.Id == purchaseId).User = user;
             Session.Current.SaveChanges();
-            var o = await GetGroupData(group);
-            return o;
+            return await GetGroupData(group);
         }
 
         /// <summary>
@@ -102,8 +120,7 @@ namespace Whtb.Controllers
         {
             var group = _repo.GetGroupById(Guid.Empty, groupId);
             group.DateTime = date;
-            var o = await GetGroupData(group);
-            return o;
+            return await GetGroupData(group);
         }
 
         /// <summary>
@@ -118,7 +135,7 @@ namespace Whtb.Controllers
         {
             var id = Guid.Parse(User.Claims.Where(x => x.Type.Equals("Id")).First().Value);
             var group = _repo.CreateGroup(groupName, date, id);
-            return new ObjectResult(group);
+            return await GetGroupData(group);
         }
 
         private async Task<ActionResult<IQueryable<object>>> GetGroupData(Group group)

@@ -28,14 +28,15 @@ namespace Whtb.Repositories
             {
                 return new List<Group>().AsQueryable();
             }
-            var user = Query.All<User>().Where(x => x.Id == userId).SingleOrDefault();
-            return Query.All<Group>().Where(x => x.Users.Contains(user));
+            //var user = Query.All<User>().Where(x => x.Id == userId).SingleOrDefault();
+            return Query.All<Group>().Where(x => x.Users.Any(z => z.Id == userId));
         }
         
         /// <inheritdoc/>
         public Group GetGroupById(Guid userId, Guid groupId)
         {
-            return Query.All<Group>().Where(x => x.Id == groupId).SingleOrDefault();
+            var groups = Query.All<Group>().Where(x => x.Id == groupId).ToList();
+            return Query.All<Group>().Where(x => x.Id == groupId && x.Users.Any(z => z.Id == userId)).SingleOrDefault();
         }
 
         /// <inheritdoc/>
@@ -52,6 +53,18 @@ namespace Whtb.Repositories
                 DateTime = date,
             };
             group.Users.Add(user);
+            Session.Current.SaveChanges();
+            return group;
+        }
+
+        /// <inheritdoc/>
+        public Group AddUser(Group group, Guid userId)
+        {
+            if (group.Users.Any(x => x.Id == userId))
+            {
+                return group;
+            }
+            group.Users.Add(Query.Single<User>(userId));
             Session.Current.SaveChanges();
             return group;
         }

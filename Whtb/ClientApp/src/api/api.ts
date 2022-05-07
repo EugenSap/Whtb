@@ -32,21 +32,28 @@ const _createGroup = (groupName: string, date: Date) => {
     return instance(token).post(`/api/group/CreateGroup?groupName=${groupName}&date=${date}`).then(response => response.data);
 }
 
-const _getGroup = (userId : string, groupId : string) => {
+const _getGroup = (groupId : string) => {
     let token = sessionStorage.getItem('tokenKey')
-    return instance(token).get(`/api/group/GetGroupById?userId=${userId}&groupId=${groupId}`).then(response =>
+    return instance(token).get(`/api/group/GetGroupById?groupId=${groupId}`).then(response =>
     {
         return response.data}
     );
 }
 
-const _addPurchase = (purchaseName: string, purchaseCost: number, groupId: string, userId: string) => {
+const _addPurchase = (purchaseName: string, purchaseCost: number, groupId: string) => {
     let token = sessionStorage.getItem('tokenKey')
-        return instance(token).post(`/api/group/AddPurchase?purchaseName=${purchaseName}&purchaseCost=${purchaseCost}&groupId=${groupId}&userId=${userId}`)
+        return instance(token).post(`/api/group/AddPurchase?purchaseName=${purchaseName}&purchaseCost=${purchaseCost}&groupId=${groupId}`)
+            .then(response => response.data);
+}
+
+const _addUserToGroup = (userId: string, groupId: string) => {
+    let token = sessionStorage.getItem('tokenKey')
+        return instance(token).post(`/api/group/AddUserToGroup?userId=${userId}&groupId=${groupId}`)
             .then(response => response.data);
 }
 
 const _assignPurchase = (groupId: string, userId: string, purchaseId: string) => {
+    console.log(`/api/group/AssignPurchase?groupId=${groupId}&userId=${userId}&purchaseId=${purchaseId}`);
     let token = sessionStorage.getItem('tokenKey')
     return instance(token).post(`/api/group/AssignPurchase?groupId=${groupId}&userId=${userId}&purchaseId=${purchaseId}`)
         .then(response => response.data);
@@ -100,5 +107,6 @@ export const API = {
     addFriend: _addFriend,
     requestUserInfo: _requestUserInfo,
     getPurchase: _getPurchase,
-    postPurchase: _postPurchase
+    postPurchase: _postPurchase,
+    addUserToGroup: _addUserToGroup
 }

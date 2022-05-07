@@ -13,9 +13,11 @@ import {compose} from "redux";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import { IGroupType, IUserType, IPurchaseType, IColumnType, IStateType } from '../../models/interfaces';
+import NewFriend from "../NewFriend/NewFriend";
 
 interface IGroup {
-    requestGroup: (arg0: string, arg1: string) => {},
+    requestGroup: (arg0: string) => {},
+    addNewUser: (arg0: string, arg1: string) => {},
     state: {
         group: IGroupType
     },
@@ -26,15 +28,16 @@ interface IGroup {
 
 const Group = (props: IGroup) => {
     const [modalActive, setModalActive] = useState(false);
+    const [newUsermodalActive, setNewUserModalActive] = useState(false);
     const {id} = useParams<{id: string}>();
 
     useEffect(() => {
-        props.requestGroup(id, id);
+        props.requestGroup(id);
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     let updateData = () => {
-        props.requestGroup(id, id);
+        props.requestGroup(id);
     }
     useEffect(() => {
         const group: IGroupType | undefined = props.state.group;
@@ -81,6 +84,12 @@ const Group = (props: IGroup) => {
         props.addPurchase(formData.name, formData.cost, id, id)
     }
 
+    let onSubmitNewUser = (formData: any) =>
+    {
+        setNewUserModalActive(false)
+        props.addNewUser(formData.id, id)
+    }
+
     let assignPurchase = (userId: string, purchaseId: string) =>
     {
         props.assignPurchase(id, userId, purchaseId)
@@ -100,8 +109,12 @@ const Group = (props: IGroup) => {
             <Modal active={modalActive} setActive={setModalActive}>
                 <NewPurchase onSubmit = {onSubmit}/>
             </Modal>
+            <Modal active={newUsermodalActive} setActive={setNewUserModalActive}>
+                <NewFriend onSubmit = {onSubmitNewUser}/>
+            </Modal>
             <Area setState={setState} state={state} assignPurchase={assignPurchase} updateData={updateData} />
             <button onClick={() => setModalActive(true)}>New purchase</button>
+            <button onClick={() => setNewUserModalActive(true)}>New User</button>
             
         </div>
         )

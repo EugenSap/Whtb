@@ -46,6 +46,7 @@ namespace Whtb
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Whtb", Version = "v1"});
                 c.IncludeXmlComments(xmlPath, true);
+                c.CustomSchemaIds(type => type.ToString());
             });
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

@@ -31,5 +31,13 @@ namespace Whtb.Repositories
         /// <param name="userId">userId</param>
         /// <returns>Группа</returns>
         Group CreateGroup(string groupName, DateTime date, Guid userId);
+
+        /// <summary>
+        /// Добавить пользователя в группу
+        /// </summary>
+        /// <param name="group">group</param>
+        /// <param name="user">user</param>
+        /// <returns>Group</returns>
+        Group AddUser(Group group, Guid user);
     }
 }
